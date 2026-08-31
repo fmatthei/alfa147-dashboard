@@ -14,12 +14,12 @@
   "overdue": [
     {
       "id": "engine-oil",
-      "name": "Engine oil",
+      "name": "Aceite motor",
       "label": "1360d overdue · 8,688 km overdue"
     },
     {
       "id": "oil-filter",
-      "name": "Oil filter",
+      "name": "Filtro de aceite",
       "label": "1360d overdue · 8,688 km overdue"
     },
     {
@@ -32,44 +32,44 @@
   "pending_parts": [
     {
       "id": "clutch-kit",
-      "name": "Clutch kit",
+      "name": "Kit de embrague",
       "purchased_date": "2021-12-10"
     },
     {
       "id": "control-arm",
-      "name": "Control arm (imported)",
+      "name": "Bandeja (importada)",
       "purchased_date": "2025-12-04"
     },
     {
       "id": "lambda-sensor",
-      "name": "Oxygen (lambda) sensor",
+      "name": "Sensor sonda lambda",
       "purchased_date": "2025-12-04"
     },
     {
       "id": "wheel-bearings",
-      "name": "Wheel bearings (x2)",
+      "name": "Rodamientos (x2)",
       "purchased_date": "2025-12-04"
     }
   ],
   "open_issues": [
     {
       "id": "roof-leak",
-      "name": "Roof water leak / clogged drain",
+      "name": "Filtración de techo (destapar desagüe)",
       "status": "open"
     },
     {
       "id": "front-bumper",
-      "name": "Front bumper damage",
+      "name": "Parachoques delantero",
       "status": "open"
     },
     {
       "id": "body-panel-left",
-      "name": "Left side body panel",
+      "name": "Lado izquierdo (carrocería)",
       "status": "evaluate"
     },
     {
       "id": "clutch-wear",
-      "name": "Clutch wear check",
+      "name": "Estado del embrague",
       "status": "evaluate"
     }
   ],
