@@ -7,7 +7,7 @@
   },
   "summary": {
     "overdue_count": 3,
-    "soon_count": 0,
+    "soon_count": 1,
     "pending_parts_count": 4,
     "open_issues_count": 4
   },
@@ -28,7 +28,13 @@
       "label": "318d overdue"
     }
   ],
-  "due_soon": [],
+  "due_soon": [
+    {
+      "id": "top-up-oil",
+      "name": "Rellenar Aceite",
+      "label": "due in 44d"
+    }
+  ],
   "pending_parts": [
     {
       "id": "clutch-kit",
