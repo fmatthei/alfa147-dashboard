@@ -4,237 +4,511 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alfa 147 Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Alfa 147 Dashboard">
 <style>
-  :root {
-    --black: #0c0c0d;
-    --black-2: #141416;
-    --black-3: #1c1c1f;
-    --line: #2a2a2e;
-    --red: #b5121b;
-    --red-bright: #e2131f;
-    --white: #f4f4f2;
-    --grey: #9a9a9e;
-    --grey-dim: #6b6b70;
-    --green-ok: #3fae5a;
-    --amber: #d99a2b;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--black);
-    color: var(--white);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
 
-  header.top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 20px;
-    border-bottom: 3px solid var(--red);
-    margin-bottom: 24px;
-  }
-  header.top .badge {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--red);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 18px;
-    flex-shrink: 0;
-    box-shadow: 0 0 0 2px var(--black-3), 0 0 0 3px var(--red);
-  }
-  header.top .title-block { display: flex; align-items: center; gap: 14px; }
-  header.top h1 { font-size: 20px; margin: 0; letter-spacing: 0.3px; }
-  header.top .sub { font-size: 12px; color: var(--grey); margin-top: 2px; }
-  header.top .km { text-align: right; }
-  header.top .km .n { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  header.top .km .l { font-size: 11px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.5px; }
 
-  nav.tabs {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 22px;
-    border-bottom: 1px solid var(--line);
-    overflow-x: auto;
+  :root{
+    --ground:#F1F3F2;
+    --surface:#FFFFFF;
+    --ink:#141A18;
+    --soft-ink:#5B6663;
+    --rules:#D5DAD8;
+    --accent:#0F5C4E;
+    --accent-wash:#0F5C4E14;
+    --warn:#B26A00;
+    --warn-wash:#B26A0014;
+    --critical:#A32B22;
+    --critical-wash:#A32B2214;
+    --info:#2C5C8A;
+    --info-wash:#2C5C8A14;
+    --followup:#7A4569;
+    --followup-wash:#7A456914;
+    --shadow: 0 1px 2px rgba(20,26,24,0.06), 0 4px 14px rgba(20,26,24,0.05);
   }
-  nav.tabs button {
-    background: none;
-    border: none;
-    color: var(--grey);
-    font-size: 13px;
-    font-weight: 600;
-    padding: 10px 14px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
-    letter-spacing: 0.2px;
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ground:#0E1412;
+      --surface:#161E1B;
+      --ink:#E6EBE8;
+      --soft-ink:#8FA39C;
+      --rules:#28322E;
+      --accent:#3DA890;
+      --accent-wash:#3DA89022;
+      --warn:#E0A040;
+      --warn-wash:#E0A04022;
+      --critical:#E8695C;
+      --critical-wash:#E8695C22;
+      --info:#6FA8DC;
+      --info-wash:#6FA8DC22;
+      --followup:#D89CC2;
+      --followup-wash:#D89CC222;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 18px rgba(0,0,0,0.35);
+    }
   }
-  nav.tabs button.active { color: var(--white); border-bottom-color: var(--red); }
-
-  section.panel { display: none; }
-  section.panel.active { display: block; }
-
-  .card {
-    background: var(--black-2);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 16px 18px;
-    margin-bottom: 12px;
+  :root[data-theme="dark"]{
+    --ground:#0E1412;
+    --surface:#161E1B;
+    --ink:#E6EBE8;
+    --soft-ink:#8FA39C;
+    --rules:#28322E;
+    --accent:#3DA890;
+    --accent-wash:#3DA89022;
+    --warn:#E0A040;
+    --warn-wash:#E0A04022;
+    --critical:#E8695C;
+    --critical-wash:#E8695C22;
+    --info:#6FA8DC;
+    --info-wash:#6FA8DC22;
+    --followup:#D89CC2;
+    --followup-wash:#D89CC222;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 18px rgba(0,0,0,0.35);
   }
-  .card-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .card-title { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
-  .card-meta { font-size: 12px; color: var(--grey); line-height: 1.5; }
-  .card-notes { font-size: 12px; color: var(--grey-dim); margin-top: 8px; line-height: 1.5; }
-
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .chip-overdue { background: rgba(226,19,31,0.15); color: var(--red-bright); border: 1px solid rgba(226,19,31,0.4); }
-  .chip-soon { background: rgba(217,154,43,0.15); color: var(--amber); border: 1px solid rgba(217,154,43,0.4); }
-  .chip-ok { background: rgba(63,174,90,0.15); color: var(--green-ok); border: 1px solid rgba(63,174,90,0.4); }
-  .chip-unknown { background: rgba(154,154,158,0.12); color: var(--grey); border: 1px solid rgba(154,154,158,0.3); }
-  .chip-pending { background: rgba(217,154,43,0.15); color: var(--amber); border: 1px solid rgba(217,154,43,0.4); }
-
-  .section-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--grey-dim);
-    margin: 24px 0 10px;
-    font-weight: 700;
-  }
-  .section-label:first-child { margin-top: 0; }
-
-  .empty-note {
-    color: var(--grey-dim);
-    font-size: 13px;
-    padding: 20px 0;
-    text-align: center;
+  :root[data-theme="light"]{
+    --ground:#F1F3F2;
+    --surface:#FFFFFF;
+    --ink:#141A18;
+    --soft-ink:#5B6663;
+    --rules:#D5DAD8;
+    --accent:#0F5C4E;
+    --accent-wash:#0F5C4E14;
+    --warn:#B26A00;
+    --warn-wash:#B26A0014;
+    --critical:#A32B22;
+    --critical-wash:#A32B2214;
+    --info:#2C5C8A;
+    --info-wash:#2C5C8A14;
+    --followup:#7A4569;
+    --followup-wash:#7A456914;
+    --shadow: 0 1px 2px rgba(20,26,24,0.06), 0 4px 14px rgba(20,26,24,0.05);
   }
 
-  .cost { font-size: 12px; color: var(--grey); font-variant-numeric: tabular-nums; }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:'Archivo',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; letter-spacing:-0.01em;}
 
-  footer.foot {
-    margin-top: 32px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-    font-size: 11px;
-    color: var(--grey-dim);
-    text-align: center;
+  .app{
+    max-width:660px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--ground);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    padding-bottom:76px;
   }
 
-  pre.raw {
-    background: var(--black-3);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 14px;
-    font-size: 11px;
-    color: var(--grey);
-    overflow-x: auto;
-    white-space: pre-wrap;
-    word-break: break-word;
+  /* ===== Header ===== */
+  header.top{
+    position:sticky; top:0; z-index:20;
+    background:var(--ground);
+    padding:16px 16px 10px;
+    border-bottom:1px solid var(--rules);
+  }
+  .brandrow{display:flex; align-items:baseline; justify-content:space-between; gap:10px;}
+  .brand{font-weight:800; font-size:19px; letter-spacing:-0.01em;}
+  .brand .dot{color:var(--accent);}
+  .themebtn{
+    border:1px solid var(--rules); background:var(--surface); color:var(--soft-ink);
+    border-radius:20px; padding:5px 11px; font-size:11px; font-family:'IBM Plex Mono',monospace;
+    cursor:pointer;
+  }
+  .synced{
+    margin-top:4px; font-size:11.5px; color:var(--soft-ink);
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .stalewarn{
+    margin-top:10px; padding:9px 12px; border-radius:10px;
+    background:var(--warn-wash); border:1px solid var(--warn);
+    color:var(--warn); font-size:12.5px; display:flex; gap:8px; align-items:flex-start;
   }
 
-  .loading, .error {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--grey);
-    font-size: 13px;
+
+
+
+
+
+
+}
+
+  main{flex:1; padding:14px 16px 20px;}
+  .tabpanel{display:none;}
+  .tabpanel.active{display:block; animation:fade .18s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(3px);} to{opacity:1; transform:none;}}
+
+  /* ===== Section groups ===== */
+  .group{margin-bottom:22px;}
+  .group-title{
+    font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--soft-ink); font-weight:600; margin:0 0 8px 2px;
+    display:flex; align-items:center; gap:6px;
   }
-  .error { color: var(--red-bright); }
+  .group-count{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px;
+    background:var(--rules); color:var(--soft-ink); padding:1px 6px; border-radius:8px;
+  }
+
+  /* ===== Row card ===== */
+  .row{
+    background:var(--surface);
+    border-radius:12px;
+    padding:13px 14px 13px 12px;
+    margin-bottom:8px;
+    box-shadow:var(--shadow);
+    border-left:4px solid var(--rules);
+    cursor:pointer;
+    position:relative;
+    transition:transform .1s ease;
+  }
+  .row:active{transform:scale(0.995);}
+  .row.state-overdue{border-left-color:var(--critical);}
+  .row.state-didyougo{border-left-color:var(--warn);}
+  .row.state-booked{border-left-color:var(--accent);}
+  .row.state-bookedlate{border-left-color:var(--info);}
+  .row.state-booknow{border-left-color:var(--warn);}
+  .row.state-ontrack{border-left-color:var(--rules);}
+  .row.state-asneeded{border-left-color:var(--rules);}
+  .row.snoozed{opacity:0.5;}
+
+  .row-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+  .row-name{font-weight:700; font-size:15px; line-height:1.25;}
+  .row-sub{font-size:12px; color:var(--soft-ink); margin-top:1px;}
+  .chip{
+    font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px;
+    white-space:nowrap; flex-shrink:0; letter-spacing:.01em;
+  }
+  .chip-filled.c-critical{background:var(--critical); color:#fff;}
+  .chip-filled.c-warn{background:var(--warn); color:#fff;}
+  .chip-filled.c-accent{background:var(--accent); color:#fff;}
+  .chip-filled.c-info{background:var(--info); color:#fff;}
+  .chip-outline{background:transparent; border:1.4px solid var(--rules); color:var(--soft-ink);}
+  .chip-outline.c-warn{border-color:var(--warn); color:var(--warn);}
+  .chip-outline.pulse{animation:pulse 2.2s ease-in-out infinite;}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 var(--warn-wash);}
+    50%{box-shadow:0 0 0 5px var(--warn-wash);}
+  }
+
+  .row-reason{font-size:12.5px; color:var(--ink); margin-top:7px; line-height:1.4;}
+
+  .badges{display:flex; flex-wrap:wrap; gap:5px; margin-top:8px;}
+  .badge{
+    font-size:10px; padding:2px 7px; border-radius:6px; font-weight:600;
+    background:var(--ground); color:var(--soft-ink); border:1px solid var(--rules);
+  }
+  .badge.followup{background:var(--followup-wash); color:var(--followup); border-color:var(--followup);}
+
+  /* ===== Gauge ===== */
+  .gauge{margin-top:10px;}
+  .gauge-track{
+    position:relative; height:6px; border-radius:4px; background:var(--rules);
+    overflow:visible;
+  }
+  .gauge-fill{
+    position:absolute; top:0; left:0; height:100%; border-radius:4px;
+  }
+  .gauge-hatch{
+    position:absolute; top:0; height:100%; border-radius:0 4px 4px 0;
+    background-image:repeating-linear-gradient(45deg, var(--hc) 0 3px, transparent 3px 6px);
+    opacity:0.9;
+  }
+  .gauge-tick{
+    position:absolute; top:-2px; width:2px; height:10px; background:var(--ink); opacity:0.35;
+  }
+  .gauge-labels{
+    display:flex; justify-content:space-between; margin-top:4px;
+    font-size:10px; color:var(--soft-ink);
+  }
+  .gauge-labels .mid{font-weight:600;}
+
+  .previsit{
+    margin-top:9px; padding:8px 10px; border-radius:8px;
+    background:var(--info-wash); border:1px dashed var(--info); font-size:11.5px; color:var(--info);
+  }
+
+  /* ===== Specialties / History list items ===== */
+  .simple-row{
+    background:var(--surface); border-radius:10px; padding:11px 13px; margin-bottom:7px;
+    box-shadow:var(--shadow); display:flex; justify-content:space-between; align-items:center; gap:10px;
+    cursor:pointer;
+  }
+  .simple-row .l{font-weight:600; font-size:13.5px;}
+  .simple-row .r{font-size:11px; color:var(--soft-ink); font-family:'IBM Plex Mono',monospace;}
+  .subhead{
+    font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--soft-ink);
+    font-weight:600; margin:20px 2px 8px; padding-top:6px; border-top:1px solid var(--rules);
+  }
+  .subhead:first-child{border-top:none; margin-top:0;}
+
+  .year-block{margin-bottom:18px;}
+  .year-label{font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:15px; margin:0 0 8px 2px; color:var(--accent);}
+  .visit-row{
+    background:var(--surface); border-radius:10px; padding:11px 13px; margin-bottom:6px; box-shadow:var(--shadow);
+  }
+  .visit-date{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--soft-ink);}
+  .visit-name{font-weight:700; font-size:13.5px; margin-top:2px;}
+  .visit-reason{font-size:12px; color:var(--soft-ink); margin-top:3px; line-height:1.4;}
+  .visit-amount{font-family:'IBM Plex Mono',monospace; font-size:11px; margin-top:4px; color:var(--ink);}
+
+  /* ===== Setup ===== */
+  .setup-card{
+    background:var(--surface); border-radius:12px; padding:14px; margin-bottom:12px; box-shadow:var(--shadow);
+  }
+  .setup-card h3{margin:0 0 8px; font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--soft-ink);}
+  .setup-line{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px solid var(--rules); font-size:12.5px;}
+  .setup-line:last-child{border-bottom:none;}
+  .setup-line .k{color:var(--soft-ink);}
+  .setup-line .v{font-family:'IBM Plex Mono',monospace; text-align:right;}
+  .setup-btns{display:flex; gap:8px; margin-top:4px;}
+  .btn{
+    flex:1; padding:10px; border-radius:9px; border:1px solid var(--rules); background:var(--surface);
+    color:var(--ink); font-family:'Archivo',sans-serif; font-weight:600; font-size:12.5px; cursor:pointer;
+  }
+  .btn:active{background:var(--ground);}
+  .btn.copied{border-color:var(--accent); color:var(--accent);}
+
+  /* ===== CTA card ===== */
+  .cta-card{
+    background:var(--accent-wash); border:1px solid var(--accent); border-radius:12px; padding:14px;
+    margin-top:6px;
+  }
+  .cta-card h4{margin:0 0 6px; font-size:12.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.05em;}
+  .cta-card p{margin:0 0 8px; font-size:12px; color:var(--soft-ink);}
+  .cta-ex{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; background:var(--surface);
+    border-radius:7px; padding:7px 9px; margin-bottom:6px; color:var(--ink);
+  }
+  .cta-ex:last-child{margin-bottom:0;}
+
+  .empty{
+    text-align:center; padding:30px 10px; color:var(--soft-ink); font-size:13px;
+  }
+
+  /* ===== Bottom sheet ===== */
+  .sheet-backdrop{
+    position:fixed; inset:0; background:rgba(10,14,13,0.45); z-index:40;
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  .sheet-backdrop.open{opacity:1; pointer-events:auto;}
+  .sheet{
+    position:fixed; left:50%; bottom:0; transform:translate(-50%, 100%);
+    width:100%; max-width:660px; max-height:82vh; overflow-y:auto;
+    background:var(--surface); border-radius:18px 18px 0 0; z-index:41;
+    padding:10px 18px 26px; box-shadow:0 -8px 30px rgba(0,0,0,0.25);
+    transition:transform .25s cubic-bezier(.2,.8,.2,1);
+  }
+  .sheet.open{transform:translate(-50%,0);}
+  .sheet-handle{width:36px; height:4px; background:var(--rules); border-radius:3px; margin:4px auto 14px;}
+  .sheet h2{margin:0; font-size:19px;}
+  .sheet .sub{font-size:12.5px; color:var(--soft-ink); margin-top:2px;}
+  .sheet-section{margin-top:16px;}
+  .sheet-section h4{
+    margin:0 0 8px; font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--soft-ink);
+  }
+  .kv{display:flex; justify-content:space-between; padding:5px 0; font-size:13px; border-bottom:1px solid var(--rules);}
+  .kv:last-child{border:none;}
+  .kv .k{color:var(--soft-ink);}
+  .kv .v{font-weight:600; text-align:right;}
+  .sheet-note{font-size:12.5px; line-height:1.5; color:var(--ink); background:var(--ground); padding:10px; border-radius:9px;}
+  .close-x{
+    position:absolute; top:14px; right:16px; width:30px; height:30px; border-radius:50%;
+    border:1px solid var(--rules); background:var(--surface); color:var(--soft-ink);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px;
+  }
+
+  /* ===== Tab bar ===== */
+  nav.tabbar{
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:660px; background:var(--surface);
+    border-top:1px solid var(--rules); display:flex; z-index:30;
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+  }
+  .tab{
+    flex:1; border:none; background:none; padding:11px 4px 9px; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    color:var(--soft-ink); font-family:'Archivo',sans-serif; font-size:10.5px; font-weight:600;
+    letter-spacing:.03em; position:relative;
+  }
+  .tab.active{color:var(--accent);}
+  .tab svg{width:20px; height:20px;}
+  .tab-badge{
+    position:absolute; top:4px; right:calc(50% - 20px);
+    background:var(--critical); color:#fff; font-size:9.5px; font-weight:700;
+    min-width:15px; height:15px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    padding:0 3px; font-family:'IBM Plex Mono',monospace;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+
+  .loading-screen{
+    position:fixed; inset:0; background:var(--ground);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    z-index:100; gap:16px; transition:opacity 0.3s ease;
+  }
+  .loading-screen.done{opacity:0; pointer-events:none;}
+  .loading-spinner{
+    width:28px; height:28px; border:3px solid var(--rules);
+    border-top-color:var(--accent); border-radius:50%;
+    animation:lspin 0.8s linear infinite;
+  }
+  @keyframes lspin{to{transform:rotate(360deg);}}
+  .loading-text{font-size:13px; color:var(--soft-ink);}
+  .loading-error{
+    text-align:center; padding:20px; max-width:320px;
+  }
+  .loading-error h2{color:var(--critical); font-size:16px; margin:0 0 8px;}
+  .loading-error p{color:var(--soft-ink); font-size:13px; line-height:1.5; margin:0 0 14px;}
+  .loading-error button{
+    padding:10px 20px; border-radius:9px; border:1.5px solid var(--critical);
+    background:var(--surface); color:var(--critical); font-weight:700;
+    font-family:'Archivo',sans-serif; font-size:13px; cursor:pointer;
+  }
+
+
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <div class="title-block">
-      <div class="badge">A</div>
-      <div>
-        <h1>Alfa Romeo 147</h1>
-        <div class="sub" id="engine-sub">1.6 TS</div>
-      </div>
-    </div>
-    <div class="km">
-      <div class="n" id="km-value">—</div>
-      <div class="l">km · <span id="km-date">—</span></div>
-    </div>
-  </header>
 
-  <nav class="tabs">
-    <button class="active" data-tab="now">Now</button>
-    <button data-tab="items">All Items</button>
-    <button data-tab="parts">Pending Parts</button>
-    <button data-tab="issues">Body &amp; Other</button>
-    <button data-tab="setup">Setup</button>
-  </nav>
-
-  <div id="app">
-    <div class="loading">Loading dashboard…</div>
-  </div>
-
-  <footer class="foot">Alfa 147 Dashboard · data lives in a private Gist · tell Claude what changed to update</footer>
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Loading from GitHub&hellip;</div>
 </div>
 
+<div class="app">
+
+  <header class="top">
+    <div class="brandrow">
+      <div class="brand">Alfa 147 <span class="dot">&middot;</span> Dashboard</div>
+      <button class="themebtn" id="themeToggle">Dark</button>
+    </div>
+    <div class="synced mono" id="syncedLine"></div>
+    <div class="stalewarn" id="staleWarn" style="display:none;">
+      <span>&#9888;</span>
+      <span>This snapshot may be stale. Ask Claude to refresh and republish the dashboard.</span>
+    </div>
+
+  </header>
+
+  <main>
+    <section class="tabpanel active" id="tab-now"></section>
+    <section class="tabpanel" id="tab-items"></section>
+    <section class="tabpanel" id="tab-parts"></section>
+    <section class="tabpanel" id="tab-setup"></section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab active" data-tab="now">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      NOW
+      <span class="tab-badge" id="nowBadge" style="display:none;"></span>
+    </button>
+    <button class="tab" data-tab="items">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+      ITEMS
+    </button>
+    <button class="tab" data-tab="parts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg>
+      PARTS
+    </button>
+    <button class="tab" data-tab="setup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+      SETUP
+    </button>
+  </nav>
+</div>
+
+<div class="sheet-backdrop" id="sheetBackdrop"></div>
+<div class="sheet" id="sheet"><div class="sheet-handle"></div><div class="close-x" id="sheetClose">&#10005;</div><div id="sheetContent"></div></div>
+
 <script>
-const GIST_RAW_URL = "https://gist.githubusercontent.com/fmatthei/be953a5144f5dd80c230cc992a9352bf/raw/state.json";
 
-function parseLocalDate(str) {
-  const [y, m, d] = str.split("-").map(Number);
-  return new Date(y, m - 1, d);
+const GIST_URL = "https://gist.githubusercontent.com/fmatthei/be953a5144f5dd80c230cc992a9352bf/raw/state.json";
+let DATA = null;
+
+async function loadData() {
+  const ls = document.getElementById('loadingScreen');
+  try {
+    const cacheBust = '?t=' + Date.now();
+    const resp = await fetch(GIST_URL + cacheBust);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    DATA = await resp.json();
+    ls.classList.add('done');
+    setTimeout(() => ls.remove(), 400);
+    initHeader();
+    renderNow();
+    renderItems();
+    renderParts();
+    renderSetup();
+  } catch(err) {
+    console.error('Load failed:', err);
+    ls.innerHTML = `
+      <div class="loading-error">
+        <h2>Could not load data</h2>
+        <p>Failed to fetch the latest state from GitHub.<br>
+        ${String(err.message||err).slice(0,100)}</p>
+        <button onclick="location.reload()">Retry</button>
+      </div>`;
+  }
 }
 
-function todayLocalStr() {
-  const t = new Date();
-  const y = t.getFullYear();
-  const m = String(t.getMonth() + 1).padStart(2, "0");
-  const d = String(t.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
+/* ================= DATE ENGINE ================= */
+function parseLocalDate(s){
+  const [y,m,d] = s.split("-").map(Number);
+  return new Date(y, m-1, d, 12, 0, 0);
 }
-
-function daysBetween(a, b) {
-  return Math.round((b - a) / (1000 * 60 * 60 * 24));
+function fmtISO(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
 }
+function addMonths(d, months){
+  const nd = new Date(d.getTime());
+  nd.setMonth(nd.getMonth()+months);
+  return nd;
+}
+function daysBetween(a,b){ return Math.round((b - a) / 86400000); }
+function fmtShort(d){
+  return d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+}
+function todayNoon(){
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12,0,0);
+}
+const TODAY = todayNoon();
 
-function computeStatus(item, currentKm, todayStr) {
-  const today = parseLocalDate(todayStr);
-  let dueByDate = null, dueByKm = null;
-  let daysLeft = null, kmLeft = null;
+/* ================= STATUS ENGINE (maintenance items) ================= */
+function computeStatus(item, currentKm){
+  const hasDate = !!(item.last_done_date && item.interval_months);
+  const hasKm = (item.last_done_km != null && item.interval_km != null && currentKm != null);
 
-  if (item.last_done_date && item.interval_months) {
-    const last = parseLocalDate(item.last_done_date);
-    dueByDate = new Date(last);
-    dueByDate.setMonth(dueByDate.getMonth() + item.interval_months);
-    daysLeft = daysBetween(today, dueByDate);
+  if (!hasDate && !hasKm){
+    return {state:'unknown', due:null, daysLeft:null, kmLeft:null};
   }
-  if (item.last_done_km != null && item.interval_km != null && currentKm != null) {
-    dueByKm = item.last_done_km + item.interval_km;
-    kmLeft = dueByKm - currentKm;
+
+  let due = null, daysLeft = null;
+  if (hasDate){
+    due = addMonths(parseLocalDate(item.last_done_date), item.interval_months);
+    daysLeft = daysBetween(TODAY, due);
   }
 
-  if (dueByDate === null && dueByKm === null) {
-    return { state: "unknown", label: "No data", daysLeft: null, kmLeft: null };
+  let dueKm = null, kmLeft = null;
+  if (hasKm){
+    dueKm = item.last_done_km + item.interval_km;
+    kmLeft = dueKm - currentKm;
   }
-
-  // most conservative: whichever triggers first
-  const candidates = [];
-  if (daysLeft !== null) candidates.push(daysLeft);
-  if (kmLeft !== null) candidates.push(kmLeft * 0.06); // rough day-equivalent weighting for sort purposes only
 
   const isOverdue = (daysLeft !== null && daysLeft < 0) || (kmLeft !== null && kmLeft < 0);
   const isSoon = !isOverdue && (
@@ -242,198 +516,390 @@ function computeStatus(item, currentKm, todayStr) {
     (kmLeft !== null && kmLeft <= 2000)
   );
 
-  let state = "ok";
-  if (isOverdue) state = "overdue";
-  else if (isSoon) state = "soon";
+  const state = isOverdue ? 'overdue' : (isSoon ? 'booknow' : 'ontrack');
+  return {state, due, daysLeft, dueKm, kmLeft};
+}
 
-  let label = "";
-  if (state === "overdue") {
-    const parts = [];
-    if (daysLeft !== null && daysLeft < 0) parts.push(`${Math.abs(daysLeft)}d overdue`);
-    if (kmLeft !== null && kmLeft < 0) parts.push(`${Math.abs(kmLeft).toLocaleString()} km overdue`);
-    label = parts.join(" · ") || "Overdue";
-  } else if (state === "soon") {
-    const parts = [];
-    if (daysLeft !== null && daysLeft <= 60) parts.push(`due in ${daysLeft}d`);
-    if (kmLeft !== null && kmLeft <= 2000) parts.push(`${kmLeft.toLocaleString()} km left`);
-    label = parts.join(" · ") || "Due soon";
+const STATE_META = {
+  overdue:  {label:'Overdue',   cls:'chip-filled c-critical'},
+  booknow:  {label:'Due soon',  cls:'chip-outline c-warn pulse'},
+  ontrack:  {label:'On track',  cls:'chip-outline'},
+  unknown:  {label:'No data',   cls:'chip-outline'},
+};
+
+function reasonText(item, status){
+  const parts = [];
+  if (status.state === 'overdue'){
+    if (status.daysLeft !== null && status.daysLeft < 0) parts.push(`${-status.daysLeft} day${status.daysLeft===-1?'':'s'} past due`);
+    if (status.kmLeft !== null && status.kmLeft < 0) parts.push(`${(-status.kmLeft).toLocaleString()} km past due`);
+    return (parts.length ? parts.join(' and ') : 'Overdue') + '. ' + (item.notes || '');
+  }
+  if (status.state === 'booknow'){
+    if (status.daysLeft !== null && status.daysLeft <= 60) parts.push(`due in ${status.daysLeft} days`);
+    if (status.kmLeft !== null && status.kmLeft <= 2000) parts.push(`${status.kmLeft.toLocaleString()} km left`);
+    return (parts.length ? parts.join(', ') : 'Due soon') + '. ' + (item.notes || '');
+  }
+  if (status.state === 'ontrack'){
+    let s = 'On track.';
+    if (status.due) s = `Due ${fmtShort(status.due)}.`;
+    return s + (item.notes ? ' ' + item.notes : '');
+  }
+  return item.notes || 'No interval on record for this item.';
+}
+
+/* ================= GAUGE (date-based only) ================= */
+function renderGauge(item, status){
+  if (status.state === 'unknown' || !item.last_done_date || !item.interval_months) return '';
+  const lastVisit = parseLocalDate(item.last_done_date);
+  const due = status.due;
+  const cycle = daysBetween(lastVisit, due);
+  if (cycle <= 0) return '';
+
+  const refDate = TODAY;
+  const isOverdueLike = refDate > due;
+
+  const colorVar = status.state==='overdue' ? 'var(--critical)'
+                  : status.state==='booknow' ? 'var(--warn)'
+                  : 'var(--soft-ink)';
+  const hatchColor = '#A32B22';
+
+  let fillPct, tickPct, hatchStart, hatchEnd, leftLabel, midLabel, rightLabel;
+  leftLabel = fmtShort(lastVisit);
+
+  if (isOverdueLike){
+    const span = daysBetween(lastVisit, refDate);
+    const dueFrac = Math.max(0, Math.min(1, cycle/span));
+    tickPct = dueFrac*100;
+    fillPct = dueFrac*100;
+    hatchStart = dueFrac*100;
+    hatchEnd = 100;
+    const overDays = daysBetween(due, refDate);
+    midLabel = `${overDays}d over`;
+    rightLabel = 'today';
   } else {
-    label = "OK";
+    const elapsed = Math.max(0, daysBetween(lastVisit, refDate));
+    fillPct = Math.max(0, Math.min(100, (elapsed/cycle)*100));
+    const leadDays = Math.min(Math.round(item.interval_months * 30.44 * 0.25), 90);
+    const bookNowPoint = Math.max(0, Math.min(100, ((cycle-leadDays)/cycle)*100));
+    tickPct = bookNowPoint;
+    hatchStart = null;
+    const leftDays = daysBetween(refDate, due);
+    midLabel = leftDays>=0 ? `${leftDays}d left` : `${-leftDays}d over`;
+    rightLabel = fmtShort(due);
   }
 
-  return { state, label, daysLeft, kmLeft };
-}
-
-function chip(state, label) {
-  const cls = { overdue: "chip-overdue", soon: "chip-soon", ok: "chip-ok", unknown: "chip-unknown" }[state] || "chip-unknown";
-  return `<span class="chip ${cls}">${label}</span>`;
-}
-
-function fmtDate(d) {
-  if (!d) return "unknown date";
-  // Parse Y-M-D as LOCAL date to avoid UTC-midnight rollback in negative timezones
-  const [y, m, day] = d.split("-").map(Number);
-  return new Date(y, m - 1, day).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-}
-
-function fmtMoney(n) {
-  if (n == null) return null;
-  return "$" + n.toLocaleString("en-US");
-}
-
-function renderNow(state, data) {
-  const currentKm = data.vehicle.current_km;
-  const today = data.__today || new Date().toISOString().slice(0,10);
-  const scored = data.maintenance_items.map(item => ({ item, status: computeStatus(item, currentKm, today) }));
-  const overdue = scored.filter(s => s.status.state === "overdue");
-  const soon = scored.filter(s => s.status.state === "soon");
-  const pendingParts = data.pending_parts || [];
-  const openIssues = (data.body_and_other_issues || []).filter(i => i.status !== "resolved");
-
-  let html = "";
-
-  html += `<div class="section-label">Overdue (${overdue.length})</div>`;
-  html += overdue.length ? overdue.map(s => itemCard(s)).join("") : `<div class="empty-note">Nothing overdue.</div>`;
-
-  html += `<div class="section-label">Due Soon (${soon.length})</div>`;
-  html += soon.length ? soon.map(s => itemCard(s)).join("") : `<div class="empty-note">Nothing due soon.</div>`;
-
-  if (pendingParts.length) {
-    html += `<div class="section-label">Pending Parts (${pendingParts.length})</div>`;
-    html += pendingParts.map(p => partCard(p)).join("");
-  }
-
-  if (openIssues.length) {
-    html += `<div class="section-label">Open Issues (${openIssues.length})</div>`;
-    html += openIssues.map(i => issueCard(i)).join("");
-  }
-
-  return html;
-}
-
-function itemCard(s) {
-  const { item, status } = s;
-  let metaParts = [];
-  if (item.last_done_date) metaParts.push(`Last: ${fmtDate(item.last_done_date)}`);
-  if (item.last_done_km != null) metaParts.push(`${item.last_done_km.toLocaleString()} km`);
-  if (item.interval_km) metaParts.push(`every ${item.interval_km.toLocaleString()} km`);
-  if (item.interval_months) metaParts.push(`every ${item.interval_months}mo`);
   return `
-    <div class="card">
-      <div class="card-row">
+    <div class="gauge">
+      <div class="gauge-track">
+        <div class="gauge-fill" style="width:${fillPct}%; background:${colorVar};"></div>
+        ${hatchStart!==null ? `<div class="gauge-hatch" style="left:${hatchStart}%; width:${hatchEnd-hatchStart}%; --hc:${hatchColor};"></div>` : ''}
+        <div class="gauge-tick" style="left:calc(${tickPct}% - 1px);"></div>
+      </div>
+      <div class="gauge-labels mono">
+        <span>${leftLabel}</span>
+        <span class="mid">${midLabel}</span>
+        <span>${rightLabel}</span>
+      </div>
+    </div>`;
+}
+
+/* ================= DATA PREP ================= */
+function computedItems(){
+  const currentKm = DATA.vehicle.current_km;
+  return DATA.maintenance_items.map(item=>{
+    const status = computeStatus(item, currentKm);
+    return {item, status};
+  });
+}
+
+/* ================= RENDER: NOW TAB ================= */
+function renderNow(){
+  const all = computedItems();
+  const overdue = all.filter(ci=>ci.status.state==='overdue');
+  const booknow = all.filter(ci=>ci.status.state==='booknow');
+  const ontrack = all.filter(ci=>ci.status.state==='ontrack' || ci.status.state==='unknown');
+
+  overdue.sort((a,b)=>{
+    const av = Math.min(a.status.daysLeft ?? 0, (a.status.kmLeft ?? 0) * 0.06);
+    const bv = Math.min(b.status.daysLeft ?? 0, (b.status.kmLeft ?? 0) * 0.06);
+    return av - bv;
+  });
+  booknow.sort((a,b)=> (a.status.daysLeft ?? 999) - (b.status.daysLeft ?? 999));
+  ontrack.sort((a,b)=> (a.status.due ? a.status.due.getTime() : Infinity) - (b.status.due ? b.status.due.getTime() : Infinity));
+
+  const pendingParts = DATA.pending_parts || [];
+  const openIssues = (DATA.body_and_other_issues || []).filter(i=>i.status !== 'resolved');
+
+  let html = '';
+  html += group('Overdue', overdue);
+  html += group('Due soon', booknow);
+
+  if (pendingParts.length){
+    html += `<div class="group">
+      <div class="group-title">Pending parts <span class="group-count">${pendingParts.length}</span></div>
+      ${pendingParts.map(p=>`
+        <div class="row" style="border-left-color:var(--warn);" data-part="${p.id}">
+          <div class="row-top">
+            <div>
+              <div class="row-name">${p.name}</div>
+              <div class="row-sub">${p.source||''}</div>
+            </div>
+            <span class="chip chip-outline c-warn">Pending install</span>
+          </div>
+          <div class="row-reason">Purchased ${p.purchased_date||'date unknown'}${p.cost?` &middot; $${p.cost.toLocaleString('en-US')}`:''}. ${p.notes||''}</div>
+        </div>`).join('')}
+    </div>`;
+  }
+
+  if (openIssues.length){
+    html += `<div class="group">
+      <div class="group-title">Open issues <span class="group-count">${openIssues.length}</span></div>
+      ${openIssues.map(i=>{
+        const isOpen = i.status === 'open';
+        return `<div class="row" style="border-left-color:${isOpen?'var(--critical)':'var(--warn)'};" data-issue="${i.id}">
+          <div class="row-top">
+            <div><div class="row-name">${i.name}</div></div>
+            <span class="chip ${isOpen?'chip-filled c-critical':'chip-outline c-warn'}">${isOpen?'Open':'Evaluate'}</span>
+          </div>
+          ${i.notes?`<div class="row-reason">${i.notes}</div>`:''}
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  html += group('Coming up', ontrack);
+
+  html += `
+    <div class="cta-card">
+      <h4>To change anything, tell Claude</h4>
+      <p>Just say it in plain language &mdash; updates happen instantly.</p>
+      <div class="cta-ex">"I just changed the oil and filter"</div>
+      <div class="cta-ex">"Installed the clutch kit"</div>
+      <div class="cta-ex">"Fixed the roof leak"</div>
+    </div>`;
+
+  document.getElementById('tab-now').innerHTML = html;
+  updateNowBadge(overdue.length + pendingParts.length);
+
+  document.querySelectorAll('#tab-now .row[data-id]').forEach(el=>{
+    el.addEventListener('click', ()=> openSheet(el.dataset.id));
+  });
+}
+
+function group(title, list){
+  if (!list.length) return '';
+  let inner = list.map(ci=>rowHTML(ci)).join('');
+  return `<div class="group">
+    <div class="group-title">${title} <span class="group-count">${list.length}</span></div>
+    ${inner}
+  </div>`;
+}
+
+function rowHTML(ci){
+  const {item, status} = ci;
+  const meta = STATE_META[status.state];
+  return `
+    <div class="row state-${status.state}" data-id="${item.id}">
+      <div class="row-top">
         <div>
-          <p class="card-title">${item.name}</p>
-          <div class="card-meta">${metaParts.join(" · ") || "No interval set"}</div>
+          <div class="row-name">${item.name}</div>
+          <div class="row-sub">${item.category||''}</div>
         </div>
-        ${chip(status.state, status.label)}
+        <span class="chip ${meta.cls}">${meta.label}</span>
       </div>
-      ${item.notes ? `<div class="card-notes">${item.notes}</div>` : ""}
-    </div>
-  `;
+      <div class="row-reason">${reasonText(item, status)}</div>
+      ${renderGauge(item, status)}
+    </div>`;
 }
 
-function partCard(p) {
-  const cost = fmtMoney(p.cost);
-  return `
-    <div class="card">
-      <div class="card-row">
-        <div>
-          <p class="card-title">${p.name}</p>
-          <div class="card-meta">Purchased ${fmtDate(p.purchased_date)}${p.source ? " · " + p.source : ""}</div>
-        </div>
-        <span class="chip chip-pending">Pending install</span>
+function updateNowBadge(n){
+  const el = document.getElementById('nowBadge');
+  if (n>0){ el.style.display='flex'; el.textContent = n; } else { el.style.display='none'; }
+}
+
+/* ================= RENDER: ITEMS TAB ================= */
+function renderItems(){
+  const all = computedItems();
+  const order = {overdue:0, booknow:1, ontrack:2, unknown:3};
+  all.sort((a,b)=> order[a.status.state]-order[b.status.state]);
+
+  let html = '<div class="subhead">Maintenance items</div>';
+  html += all.map(ci=>simpleRow(ci)).join('');
+
+  document.getElementById('tab-items').innerHTML = html;
+  document.querySelectorAll('#tab-items .simple-row[data-id]').forEach(el=>{
+    el.addEventListener('click', ()=> openSheet(el.dataset.id));
+  });
+}
+
+function simpleRow(ci){
+  const {item, status} = ci;
+  const meta = STATE_META[status.state];
+  let sub = '';
+  if (item.last_done_km != null) sub = `${item.last_done_km.toLocaleString()} km`;
+  else if (item.last_done_date) sub = item.last_done_date;
+  else sub = '&mdash;';
+  return `<div class="simple-row" data-id="${item.id}">
+    <div>
+      <div class="l">${item.name}</div>
+      <div class="r">${sub}</div>
+    </div>
+    <span class="chip ${meta.cls}">${meta.label}</span>
+  </div>`;
+}
+
+/* ================= RENDER: PARTS TAB (pending parts + issues) ================= */
+function renderParts(){
+  const parts = DATA.pending_parts || [];
+  const issues = DATA.body_and_other_issues || [];
+
+  let html = '<div class="subhead">Pending parts</div>';
+  html += parts.length ? parts.map(p=>`
+    <div class="visit-row">
+      <div class="visit-date mono">${p.purchased_date||'&mdash;'}</div>
+      <div class="visit-name">${p.name}${p.source?' &middot; '+p.source:''}</div>
+      ${p.cost?`<div class="visit-amount">$${p.cost.toLocaleString('en-US')}</div>`:''}
+      ${p.notes?`<div class="visit-reason">${p.notes}</div>`:''}
+    </div>`).join('') : `<div class="empty">No pending parts.</div>`;
+
+  html += '<div class="subhead">Body &amp; other issues</div>';
+  html += issues.length ? issues.map(i=>`
+    <div class="simple-row">
+      <div>
+        <div class="l">${i.name}</div>
+        <div class="r">${i.notes||''}</div>
       </div>
-      ${cost ? `<div class="card-notes cost">${cost}</div>` : ""}
-      ${p.notes ? `<div class="card-notes">${p.notes}</div>` : ""}
-    </div>
-  `;
+      <span class="chip ${i.status==='open'?'chip-filled c-critical':'chip-outline c-warn'}">${i.status==='open'?'Open':'Evaluate'}</span>
+    </div>`).join('') : `<div class="empty">No open issues.</div>`;
+
+  document.getElementById('tab-parts').innerHTML = html;
 }
 
-function issueCard(i) {
-  const stateChip = i.status === "open" ? chip("overdue", "Open") : chip("soon", "Evaluate");
-  return `
-    <div class="card">
-      <div class="card-row">
-        <div><p class="card-title">${i.name}</p></div>
-        ${stateChip}
+/* ================= RENDER: SETUP TAB ================= */
+function renderSetup(){
+  const v = DATA.vehicle;
+  const html = `
+    <div class="setup-card">
+      <h3>Vehicle</h3>
+      <div class="setup-line"><span class="k">Make / model</span><span class="v">${v.make} ${v.model}</span></div>
+      <div class="setup-line"><span class="k">Engine</span><span class="v">${v.engine}</span></div>
+      <div class="setup-line"><span class="k">Current km</span><span class="v">${v.current_km.toLocaleString()}</span></div>
+      <div class="setup-line"><span class="k">Km recorded</span><span class="v">${v.km_recorded_date}</span></div>
+    </div>
+
+    <div class="setup-card">
+      <h3>Where this record lives</h3>
+      <div class="setup-line"><span class="k">Storage</span><span class="v">GitHub Gist</span></div>
+      <div class="setup-line"><span class="k">File</span><span class="v">state.json</span></div>
+      <div class="setup-line"><span class="k">Repo</span><span class="v">alfa147-dashboard</span></div>
+      <div class="setup-line"><span class="k">Schema version</span><span class="v">${DATA.meta ? DATA.meta.schema_version : '&mdash;'}</span></div>
+    </div>
+
+    <div class="setup-card">
+      <h3>Due-soon window rules</h3>
+      <div class="setup-line"><span class="k">Date lead time</span><span class="v">&frac14; of interval, capped 90d</span></div>
+      <div class="setup-line"><span class="k">Km lead time</span><span class="v">2,000 km</span></div>
+    </div>
+
+    <div class="setup-card">
+      <h3>Export</h3>
+      <div class="setup-btns">
+        <button class="btn" id="copyDigest">Copy text digest</button>
+        <button class="btn" id="copyJSON">Copy full JSON</button>
       </div>
-      ${i.notes ? `<div class="card-notes">${i.notes}</div>` : ""}
     </div>
   `;
+  document.getElementById('tab-setup').innerHTML = html;
+  document.getElementById('copyDigest').addEventListener('click', e=>copyText(buildDigest(), e.target));
+  document.getElementById('copyJSON').addEventListener('click', e=>copyText(JSON.stringify(DATA, null, 2), e.target));
 }
 
-function renderItems(data) {
-  const currentKm = data.vehicle.current_km;
-  const today = data.__today || new Date().toISOString().slice(0,10);
-  const scored = data.maintenance_items.map(item => ({ item, status: computeStatus(item, currentKm, today) }));
-  const order = { overdue: 0, soon: 1, unknown: 2, ok: 3 };
-  scored.sort((a, b) => order[a.status.state] - order[b.status.state]);
-  return scored.map(s => itemCard(s)).join("");
+function buildDigest(){
+  const all = computedItems();
+  const lines = [`Alfa 147 Dashboard digest — ${fmtShort(TODAY)}`, ''];
+  const overdue = all.filter(ci=>ci.status.state==='overdue');
+  const booknow = all.filter(ci=>ci.status.state==='booknow');
+  if (overdue.length){ lines.push('OVERDUE'); overdue.forEach(ci=>lines.push(`- ${ci.item.name}`)); lines.push(''); }
+  if (booknow.length){ lines.push('DUE SOON'); booknow.forEach(ci=>lines.push(`- ${ci.item.name}`)); lines.push(''); }
+  return lines.join('\n');
 }
 
-function renderParts(data) {
-  const parts = data.pending_parts || [];
-  if (!parts.length) return `<div class="empty-note">No pending parts.</div>`;
-  return parts.map(p => partCard(p)).join("");
+function copyText(text, btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    const original = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+  }).catch(()=>{
+    btn.textContent = 'Could not copy';
+  });
 }
 
-function renderIssues(data) {
-  const issues = data.body_and_other_issues || [];
-  if (!issues.length) return `<div class="empty-note">No open issues.</div>`;
-  return issues.map(i => issueCard(i)).join("");
-}
+/* ================= BOTTOM SHEET ================= */
+function openSheet(itemId){
+  const item = DATA.maintenance_items.find(i=>i.id===itemId);
+  if (!item) return;
+  const currentKm = DATA.vehicle.current_km;
+  const status = computeStatus(item, currentKm);
 
-function renderSetup(data) {
-  return `
-    <div class="card">
-      <p class="card-title">Data source</p>
-      <div class="card-meta">${data.service_log_source || "—"}</div>
+  let html = `
+    <h2>${item.name}</h2>
+    <div class="sub">${item.category||''}</div>
+
+    <div class="sheet-section">
+      <h4>Schedule</h4>
+      <div class="kv"><span class="k">Status</span><span class="v">${STATE_META[status.state].label}</span></div>
+      <div class="kv"><span class="k">Last done</span><span class="v mono">${item.last_done_date||'&mdash;'}</span></div>
+      <div class="kv"><span class="k">Last done km</span><span class="v mono">${item.last_done_km!=null?item.last_done_km.toLocaleString():'&mdash;'}</span></div>
+      ${status.due?`<div class="kv"><span class="k">Next due (date)</span><span class="v mono">${fmtISO(status.due)}</span></div>`:''}
+      ${status.dueKm!=null?`<div class="kv"><span class="k">Next due (km)</span><span class="v mono">${status.dueKm.toLocaleString()}</span></div>`:''}
+      ${item.interval_months?`<div class="kv"><span class="k">Interval</span><span class="v">${item.interval_months} months</span></div>`:''}
+      ${item.interval_km?`<div class="kv"><span class="k">Interval</span><span class="v">${item.interval_km.toLocaleString()} km</span></div>`:''}
     </div>
-    <div class="card">
-      <p class="card-title">Raw state.json</p>
-      <pre class="raw">${JSON.stringify(data, null, 2)}</pre>
-    </div>
+
+    ${item.notes?`<div class="sheet-section"><h4>Notes</h4><div class="sheet-note">${item.notes}</div></div>`:''}
   `;
+  document.getElementById('sheetContent').innerHTML = html;
+  document.getElementById('sheet').classList.add('open');
+  document.getElementById('sheetBackdrop').classList.add('open');
+}
+function closeSheet(){
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('sheetBackdrop').classList.remove('open');
+}
+document.getElementById('sheetClose').addEventListener('click', closeSheet);
+document.getElementById('sheetBackdrop').addEventListener('click', closeSheet);
+
+/* ================= TABS ================= */
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tabpanel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ================= THEME TOGGLE ================= */
+let dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+function applyTheme(){
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  document.getElementById('themeToggle').textContent = dark ? 'Light' : 'Dark';
+}
+document.getElementById('themeToggle').addEventListener('click', ()=>{ dark = !dark; applyTheme(); });
+applyTheme();
+
+/* ================= HEADER: SYNCED / STALE ================= */
+function initHeader(){
+  const updated = DATA.meta && DATA.meta.last_updated ? parseLocalDate(DATA.meta.last_updated) : TODAY;
+  document.getElementById('syncedLine').textContent = `Synced ${updated.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}`;
+  const ageDays = daysBetween(updated, TODAY);
+  document.getElementById('staleWarn').style.display = ageDays > 7 ? 'flex' : 'none';
 }
 
-async function init() {
-  const app = document.getElementById("app");
-  try {
-    const res = await fetch(GIST_RAW_URL, { cache: "no-store" });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const data = await res.json();
-    data.__today = todayLocalStr();
+/* ================= INIT ================= */
+loadData();
 
-    document.getElementById("engine-sub").textContent = data.vehicle.engine || "";
-    document.getElementById("km-value").textContent = data.vehicle.current_km.toLocaleString();
-    document.getElementById("km-date").textContent = fmtDate(data.vehicle.km_recorded_date);
-
-    const panels = {
-      now: renderNow("now", data),
-      items: renderItems(data),
-      parts: renderParts(data),
-      issues: renderIssues(data),
-      setup: renderSetup(data)
-    };
-
-    app.innerHTML = Object.keys(panels).map(key =>
-      `<section class="panel ${key === 'now' ? 'active' : ''}" id="panel-${key}">${panels[key]}</section>`
-    ).join("");
-
-    document.querySelectorAll("nav.tabs button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("nav.tabs button").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll("section.panel").forEach(p => p.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
-      });
-    });
-  } catch (err) {
-    app.innerHTML = `<div class="error">Couldn't load dashboard data.<br>${err.message}</div>`;
-  }
-}
-
-init();
 </script>
 </body>
 </html>
