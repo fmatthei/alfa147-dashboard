@@ -695,19 +695,48 @@ function group(title, list){
   </div>`;
 }
 
+function fmtShortLocal(dateStr){
+  return fmtShort(parseLocalDate(dateStr));
+}
+
+function dateLine(item, status){
+  if (!item.last_done_date || !item.interval_months || !status.due) return '';
+  return `
+    <div class="mono" style="font-size:12.5px; color:var(--ink); margin-top:5px;">
+      <span>${fmtShortLocal(item.last_done_date)}</span>
+      <span style="color:var(--soft-ink); margin:0 8px;">&rarr;</span>
+      <span>${fmtShort(status.due)}</span>
+      <span style="color:var(--soft-ink); font-size:11px; margin-left:8px;">(${item.interval_months} months)</span>
+    </div>`;
+}
+
+function kmLine(item, status){
+  if (item.last_done_km == null || item.interval_km == null || status.dueKm == null) return '';
+  return `
+    <div class="mono" style="font-size:12.5px; color:var(--ink); margin-top:5px;">
+      <span>${item.last_done_km.toLocaleString()} km</span>
+      <span style="color:var(--soft-ink); margin:0 8px;">&rarr;</span>
+      <span>${status.dueKm.toLocaleString()} km</span>
+      <span style="color:var(--soft-ink); font-size:11px; margin-left:8px;">(${item.interval_km.toLocaleString()} km)</span>
+    </div>`;
+}
+
 function rowHTML(ci){
   const {item, status} = ci;
   const meta = STATE_META[status.state];
+  const dLine = dateLine(item, status);
+  const kLine = kmLine(item, status);
+  const noData = !dLine && !kLine;
   return `
     <div class="row state-${status.state}" data-id="${item.id}">
       <div class="row-top">
-        <div>
-          <div class="row-name">${item.name}</div>
-          <div class="row-sub">${item.category||''}</div>
-        </div>
+        <div class="row-name">${item.name}</div>
         <span class="chip ${meta.cls}">${meta.label}</span>
       </div>
-      <div class="row-reason">${reasonText(item, status)}</div>
+      ${dLine}
+      ${kLine}
+      ${noData ? `<div class="row-reason" style="margin-top:5px; color:var(--soft-ink);">No date or km on record for this item.</div>` : ''}
+      ${item.notes ? `<div class="row-reason" style="margin-top:8px;">${item.notes}</div>` : ''}
       ${renderGauge(item, status)}
     </div>`;
 }
