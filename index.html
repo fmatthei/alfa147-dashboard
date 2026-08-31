@@ -194,17 +194,30 @@
 <script>
 const GIST_RAW_URL = "https://gist.githubusercontent.com/fmatthei/be953a5144f5dd80c230cc992a9352bf/raw/state.json";
 
+function parseLocalDate(str) {
+  const [y, m, d] = str.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function todayLocalStr() {
+  const t = new Date();
+  const y = t.getFullYear();
+  const m = String(t.getMonth() + 1).padStart(2, "0");
+  const d = String(t.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
 function daysBetween(a, b) {
   return Math.round((b - a) / (1000 * 60 * 60 * 24));
 }
 
 function computeStatus(item, currentKm, todayStr) {
-  const today = new Date(todayStr);
+  const today = parseLocalDate(todayStr);
   let dueByDate = null, dueByKm = null;
   let daysLeft = null, kmLeft = null;
 
   if (item.last_done_date && item.interval_months) {
-    const last = new Date(item.last_done_date);
+    const last = parseLocalDate(item.last_done_date);
     dueByDate = new Date(last);
     dueByDate.setMonth(dueByDate.getMonth() + item.interval_months);
     daysLeft = daysBetween(today, dueByDate);
@@ -258,7 +271,9 @@ function chip(state, label) {
 
 function fmtDate(d) {
   if (!d) return "unknown date";
-  return new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  // Parse Y-M-D as LOCAL date to avoid UTC-midnight rollback in negative timezones
+  const [y, m, day] = d.split("-").map(Number);
+  return new Date(y, m - 1, day).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 }
 
 function fmtMoney(n) {
@@ -387,7 +402,7 @@ async function init() {
     const res = await fetch(GIST_RAW_URL, { cache: "no-store" });
     if (!res.ok) throw new Error("HTTP " + res.status);
     const data = await res.json();
-    data.__today = new Date().toISOString().slice(0,10);
+    data.__today = todayLocalStr();
 
     document.getElementById("engine-sub").textContent = data.vehicle.engine || "";
     document.getElementById("km-value").textContent = data.vehicle.current_km.toLocaleString();
