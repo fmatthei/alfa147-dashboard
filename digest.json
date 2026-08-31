@@ -8,8 +8,8 @@
   "summary": {
     "overdue_count": 3,
     "soon_count": 1,
-    "pending_parts_count": 4,
-    "open_issues_count": 4
+    "pending_parts_count": 0,
+    "open_issues_count": 8
   },
   "overdue": [
     {
@@ -35,28 +35,7 @@
       "label": "due in 44d"
     }
   ],
-  "pending_parts": [
-    {
-      "id": "clutch-kit",
-      "name": "Kit de embrague",
-      "purchased_date": "2021-12-10"
-    },
-    {
-      "id": "control-arm",
-      "name": "Bandeja (importada)",
-      "purchased_date": "2025-12-04"
-    },
-    {
-      "id": "lambda-sensor",
-      "name": "Sensor sonda lambda",
-      "purchased_date": "2025-12-04"
-    },
-    {
-      "id": "wheel-bearings",
-      "name": "Rodamientos (x2)",
-      "purchased_date": "2025-12-04"
-    }
-  ],
+  "pending_parts": [],
   "open_issues": [
     {
       "id": "roof-leak",
@@ -77,6 +56,26 @@
       "id": "clutch-wear",
       "name": "Estado del embrague",
       "status": "evaluate"
+    },
+    {
+      "id": "clutch-kit",
+      "name": "Kit de embrague (cambiar)",
+      "status": "open"
+    },
+    {
+      "id": "control-arm",
+      "name": "Bandeja (cambiar)",
+      "status": "open"
+    },
+    {
+      "id": "lambda-sensor",
+      "name": "Sensor sonda lambda (cambiar)",
+      "status": "open"
+    },
+    {
+      "id": "wheel-bearings",
+      "name": "Rodamientos (x2) (cambiar)",
+      "status": "open"
     }
   ],
   "dashboard_url": "https://fmatthei.github.io/alfa147-dashboard/"
