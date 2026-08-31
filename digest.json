@@ -1,0 +1,77 @@
+{
+  "generated_at": "2026-08-31",
+  "vehicle": {
+    "label": "Alfa Romeo 147",
+    "current_km": 133458,
+    "km_recorded_date": "2026-08-14"
+  },
+  "summary": {
+    "overdue_count": 3,
+    "soon_count": 0,
+    "pending_parts_count": 4,
+    "open_issues_count": 4
+  },
+  "overdue": [
+    {
+      "id": "engine-oil",
+      "name": "Engine oil",
+      "label": "1360d overdue · 8,688 km overdue"
+    },
+    {
+      "id": "oil-filter",
+      "name": "Oil filter",
+      "label": "1360d overdue · 8,688 km overdue"
+    },
+    {
+      "id": "coolant",
+      "name": "Coolant",
+      "label": "318d overdue"
+    }
+  ],
+  "due_soon": [],
+  "pending_parts": [
+    {
+      "id": "clutch-kit",
+      "name": "Clutch kit",
+      "purchased_date": "2021-12-10"
+    },
+    {
+      "id": "control-arm",
+      "name": "Control arm (imported)",
+      "purchased_date": "2025-12-04"
+    },
+    {
+      "id": "lambda-sensor",
+      "name": "Oxygen (lambda) sensor",
+      "purchased_date": "2025-12-04"
+    },
+    {
+      "id": "wheel-bearings",
+      "name": "Wheel bearings (x2)",
+      "purchased_date": "2025-12-04"
+    }
+  ],
+  "open_issues": [
+    {
+      "id": "roof-leak",
+      "name": "Roof water leak / clogged drain",
+      "status": "open"
+    },
+    {
+      "id": "front-bumper",
+      "name": "Front bumper damage",
+      "status": "open"
+    },
+    {
+      "id": "body-panel-left",
+      "name": "Left side body panel",
+      "status": "evaluate"
+    },
+    {
+      "id": "clutch-wear",
+      "name": "Clutch wear check",
+      "status": "evaluate"
+    }
+  ],
+  "dashboard_url": "https://fmatthei.github.io/alfa147-dashboard/"
+}
