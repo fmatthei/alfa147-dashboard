@@ -613,56 +613,6 @@ function computedItems(){
 }
 
 /* ================= RENDER: NOW TAB ================= */
-function renderPlannedGroup(){
-  const visits = DATA.planned_visits || [];
-  if (!visits.length) return '';
-  const all = computedItems();
-  const findItem = id => all.find(ci=>ci.item.id===id);
-  const findIssue = id => (DATA.body_and_other_issues||[]).find(i=>i.id===id);
-
-  return visits.map(visit=>{
-    const rows = visit.item_ids.map(id=>{
-      const ci = findItem(id);
-      if (ci){
-        const {item, status} = ci;
-        const meta = STATE_META[status.state];
-        const dLine = dateLine(item, status);
-        const kLine = kmLine(item, status);
-        return `
-          <div class="row state-${status.state}" data-id="${item.id}">
-            <div class="row-top">
-              <div class="row-name">${item.name}</div>
-              <span class="chip ${meta.cls}">${meta.label}</span>
-            </div>
-            <div class="badges"><span class="badge followup">Planned &middot; ${visit.label}</span></div>
-            ${dLine}
-            ${kLine}
-            ${item.notes ? `<div class="row-reason" style="margin-top:8px;">${item.notes}</div>` : ''}
-            ${renderGauge(item, status)}
-          </div>`;
-      }
-      const issue = findIssue(id);
-      if (issue){
-        const isOpen = issue.status === 'open';
-        return `
-          <div class="row" style="border-left-color:${isOpen?'var(--critical)':'var(--warn)'};" data-issue="${issue.id}">
-            <div class="row-top">
-              <div class="row-name">${issue.name}</div>
-              <span class="chip ${isOpen?'chip-filled c-critical':'chip-outline c-warn'}">${isOpen?'Open':'Evaluate'}</span>
-            </div>
-            <div class="badges"><span class="badge followup">Planned &middot; ${visit.label}</span></div>
-            ${issue.notes?`<div class="row-reason">${issue.notes}</div>`:''}
-          </div>`;
-      }
-      return '';
-    }).join('');
-    return `<div class="group">
-      <div class="group-title">Planned &middot; ${visit.label} <span class="group-count">${visit.item_ids.length}</span></div>
-      ${rows}
-    </div>`;
-  }).join('');
-}
-
 function renderNow(){
   const all = computedItems();
   const overdue = all.filter(ci=>ci.status.state==='overdue');
@@ -681,7 +631,6 @@ function renderNow(){
   const openIssues = (DATA.body_and_other_issues || []).filter(i=>i.status !== 'resolved');
 
   let html = '';
-  html += renderPlannedGroup();
   html += group('Overdue', overdue);
   html += group('Due soon', booknow);
 
