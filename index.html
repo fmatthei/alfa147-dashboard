@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alfa 147 Dashboard</title>
+<style>
+  :root {
+    --black: #0c0c0d;
+    --black-2: #141416;
+    --black-3: #1c1c1f;
+    --line: #2a2a2e;
+    --red: #b5121b;
+    --red-bright: #e2131f;
+    --white: #f4f4f2;
+    --grey: #9a9a9e;
+    --grey-dim: #6b6b70;
+    --green-ok: #3fae5a;
+    --amber: #d99a2b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--black);
+    color: var(--white);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  header.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--red);
+    margin-bottom: 24px;
+  }
+  header.top .badge {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--black-3), 0 0 0 3px var(--red);
+  }
+  header.top .title-block { display: flex; align-items: center; gap: 14px; }
+  header.top h1 { font-size: 20px; margin: 0; letter-spacing: 0.3px; }
+  header.top .sub { font-size: 12px; color: var(--grey); margin-top: 2px; }
+  header.top .km { text-align: right; }
+  header.top .km .n { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  header.top .km .l { font-size: 11px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  nav.tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+  }
+  nav.tabs button {
+    background: none;
+    border: none;
+    color: var(--grey);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+  }
+  nav.tabs button.active { color: var(--white); border-bottom-color: var(--red); }
+
+  section.panel { display: none; }
+  section.panel.active { display: block; }
+
+  .card {
+    background: var(--black-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
+  .card-meta { font-size: 12px; color: var(--grey); line-height: 1.5; }
+  .card-notes { font-size: 12px; color: var(--grey-dim); margin-top: 8px; line-height: 1.5; }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .chip-overdue { background: rgba(226,19,31,0.15); color: var(--red-bright); border: 1px solid rgba(226,19,31,0.4); }
+  .chip-soon { background: rgba(217,154,43,0.15); color: var(--amber); border: 1px solid rgba(217,154,43,0.4); }
+  .chip-ok { background: rgba(63,174,90,0.15); color: var(--green-ok); border: 1px solid rgba(63,174,90,0.4); }
+  .chip-unknown { background: rgba(154,154,158,0.12); color: var(--grey); border: 1px solid rgba(154,154,158,0.3); }
+  .chip-pending { background: rgba(217,154,43,0.15); color: var(--amber); border: 1px solid rgba(217,154,43,0.4); }
+
+  .section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--grey-dim);
+    margin: 24px 0 10px;
+    font-weight: 700;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .empty-note {
+    color: var(--grey-dim);
+    font-size: 13px;
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  .cost { font-size: 12px; color: var(--grey); font-variant-numeric: tabular-nums; }
+
+  footer.foot {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--grey-dim);
+    text-align: center;
+  }
+
+  pre.raw {
+    background: var(--black-3);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 11px;
+    color: var(--grey);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .loading, .error {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--grey);
+    font-size: 13px;
+  }
+  .error { color: var(--red-bright); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="title-block">
+      <div class="badge">A</div>
+      <div>
+        <h1>Alfa Romeo 147</h1>
+        <div class="sub" id="engine-sub">1.6 TS</div>
+      </div>
+    </div>
+    <div class="km">
+      <div class="n" id="km-value">—</div>
+      <div class="l">km · <span id="km-date">—</span></div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="active" data-tab="now">Now</button>
+    <button data-tab="items">All Items</button>
+    <button data-tab="parts">Pending Parts</button>
+    <button data-tab="issues">Body &amp; Other</button>
+    <button data-tab="setup">Setup</button>
+  </nav>
+
+  <div id="app">
+    <div class="loading">Loading dashboard…</div>
+  </div>
+
+  <footer class="foot">Alfa 147 Dashboard · data lives in a private Gist · tell Claude what changed to update</footer>
+</div>
+
+<script>
+const GIST_RAW_URL = "https://gist.githubusercontent.com/fmatthei/be953a5144f5dd80c230cc992a9352bf/raw/state.json";
+
+function daysBetween(a, b) {
+  return Math.round((b - a) / (1000 * 60 * 60 * 24));
+}
+
+function computeStatus(item, currentKm, todayStr) {
+  const today = new Date(todayStr);
+  let dueByDate = null, dueByKm = null;
+  let daysLeft = null, kmLeft = null;
+
+  if (item.last_done_date && item.interval_months) {
+    const last = new Date(item.last_done_date);
+    dueByDate = new Date(last);
+    dueByDate.setMonth(dueByDate.getMonth() + item.interval_months);
+    daysLeft = daysBetween(today, dueByDate);
+  }
+  if (item.last_done_km != null && item.interval_km != null && currentKm != null) {
+    dueByKm = item.last_done_km + item.interval_km;
+    kmLeft = dueByKm - currentKm;
+  }
+
+  if (dueByDate === null && dueByKm === null) {
+    return { state: "unknown", label: "No data", daysLeft: null, kmLeft: null };
+  }
+
+  // most conservative: whichever triggers first
+  const candidates = [];
+  if (daysLeft !== null) candidates.push(daysLeft);
+  if (kmLeft !== null) candidates.push(kmLeft * 0.06); // rough day-equivalent weighting for sort purposes only
+
+  const isOverdue = (daysLeft !== null && daysLeft < 0) || (kmLeft !== null && kmLeft < 0);
+  const isSoon = !isOverdue && (
+    (daysLeft !== null && daysLeft <= 60) ||
+    (kmLeft !== null && kmLeft <= 2000)
+  );
+
+  let state = "ok";
+  if (isOverdue) state = "overdue";
+  else if (isSoon) state = "soon";
+
+  let label = "";
+  if (state === "overdue") {
+    const parts = [];
+    if (daysLeft !== null && daysLeft < 0) parts.push(`${Math.abs(daysLeft)}d overdue`);
+    if (kmLeft !== null && kmLeft < 0) parts.push(`${Math.abs(kmLeft).toLocaleString()} km overdue`);
+    label = parts.join(" · ") || "Overdue";
+  } else if (state === "soon") {
+    const parts = [];
+    if (daysLeft !== null && daysLeft <= 60) parts.push(`due in ${daysLeft}d`);
+    if (kmLeft !== null && kmLeft <= 2000) parts.push(`${kmLeft.toLocaleString()} km left`);
+    label = parts.join(" · ") || "Due soon";
+  } else {
+    label = "OK";
+  }
+
+  return { state, label, daysLeft, kmLeft };
+}
+
+function chip(state, label) {
+  const cls = { overdue: "chip-overdue", soon: "chip-soon", ok: "chip-ok", unknown: "chip-unknown" }[state] || "chip-unknown";
+  return `<span class="chip ${cls}">${label}</span>`;
+}
+
+function fmtDate(d) {
+  if (!d) return "unknown date";
+  return new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+
+function fmtMoney(n) {
+  if (n == null) return null;
+  return "$" + n.toLocaleString("en-US");
+}
+
+function renderNow(state, data) {
+  const currentKm = data.vehicle.current_km;
+  const today = data.__today || new Date().toISOString().slice(0,10);
+  const scored = data.maintenance_items.map(item => ({ item, status: computeStatus(item, currentKm, today) }));
+  const overdue = scored.filter(s => s.status.state === "overdue");
+  const soon = scored.filter(s => s.status.state === "soon");
+  const pendingParts = data.pending_parts || [];
+  const openIssues = (data.body_and_other_issues || []).filter(i => i.status !== "resolved");
+
+  let html = "";
+
+  html += `<div class="section-label">Overdue (${overdue.length})</div>`;
+  html += overdue.length ? overdue.map(s => itemCard(s)).join("") : `<div class="empty-note">Nothing overdue.</div>`;
+
+  html += `<div class="section-label">Due Soon (${soon.length})</div>`;
+  html += soon.length ? soon.map(s => itemCard(s)).join("") : `<div class="empty-note">Nothing due soon.</div>`;
+
+  if (pendingParts.length) {
+    html += `<div class="section-label">Pending Parts (${pendingParts.length})</div>`;
+    html += pendingParts.map(p => partCard(p)).join("");
+  }
+
+  if (openIssues.length) {
+    html += `<div class="section-label">Open Issues (${openIssues.length})</div>`;
+    html += openIssues.map(i => issueCard(i)).join("");
+  }
+
+  return html;
+}
+
+function itemCard(s) {
+  const { item, status } = s;
+  let metaParts = [];
+  if (item.last_done_date) metaParts.push(`Last: ${fmtDate(item.last_done_date)}`);
+  if (item.last_done_km != null) metaParts.push(`${item.last_done_km.toLocaleString()} km`);
+  if (item.interval_km) metaParts.push(`every ${item.interval_km.toLocaleString()} km`);
+  if (item.interval_months) metaParts.push(`every ${item.interval_months}mo`);
+  return `
+    <div class="card">
+      <div class="card-row">
+        <div>
+          <p class="card-title">${item.name}</p>
+          <div class="card-meta">${metaParts.join(" · ") || "No interval set"}</div>
+        </div>
+        ${chip(status.state, status.label)}
+      </div>
+      ${item.notes ? `<div class="card-notes">${item.notes}</div>` : ""}
+    </div>
+  `;
+}
+
+function partCard(p) {
+  const cost = fmtMoney(p.cost);
+  return `
+    <div class="card">
+      <div class="card-row">
+        <div>
+          <p class="card-title">${p.name}</p>
+          <div class="card-meta">Purchased ${fmtDate(p.purchased_date)}${p.source ? " · " + p.source : ""}</div>
+        </div>
+        <span class="chip chip-pending">Pending install</span>
+      </div>
+      ${cost ? `<div class="card-notes cost">${cost}</div>` : ""}
+      ${p.notes ? `<div class="card-notes">${p.notes}</div>` : ""}
+    </div>
+  `;
+}
+
+function issueCard(i) {
+  const stateChip = i.status === "open" ? chip("overdue", "Open") : chip("soon", "Evaluate");
+  return `
+    <div class="card">
+      <div class="card-row">
+        <div><p class="card-title">${i.name}</p></div>
+        ${stateChip}
+      </div>
+      ${i.notes ? `<div class="card-notes">${i.notes}</div>` : ""}
+    </div>
+  `;
+}
+
+function renderItems(data) {
+  const currentKm = data.vehicle.current_km;
+  const today = data.__today || new Date().toISOString().slice(0,10);
+  const scored = data.maintenance_items.map(item => ({ item, status: computeStatus(item, currentKm, today) }));
+  const order = { overdue: 0, soon: 1, unknown: 2, ok: 3 };
+  scored.sort((a, b) => order[a.status.state] - order[b.status.state]);
+  return scored.map(s => itemCard(s)).join("");
+}
+
+function renderParts(data) {
+  const parts = data.pending_parts || [];
+  if (!parts.length) return `<div class="empty-note">No pending parts.</div>`;
+  return parts.map(p => partCard(p)).join("");
+}
+
+function renderIssues(data) {
+  const issues = data.body_and_other_issues || [];
+  if (!issues.length) return `<div class="empty-note">No open issues.</div>`;
+  return issues.map(i => issueCard(i)).join("");
+}
+
+function renderSetup(data) {
+  return `
+    <div class="card">
+      <p class="card-title">Data source</p>
+      <div class="card-meta">${data.service_log_source || "—"}</div>
+    </div>
+    <div class="card">
+      <p class="card-title">Raw state.json</p>
+      <pre class="raw">${JSON.stringify(data, null, 2)}</pre>
+    </div>
+  `;
+}
+
+async function init() {
+  const app = document.getElementById("app");
+  try {
+    const res = await fetch(GIST_RAW_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    data.__today = new Date().toISOString().slice(0,10);
+
+    document.getElementById("engine-sub").textContent = data.vehicle.engine || "";
+    document.getElementById("km-value").textContent = data.vehicle.current_km.toLocaleString();
+    document.getElementById("km-date").textContent = fmtDate(data.vehicle.km_recorded_date);
+
+    const panels = {
+      now: renderNow("now", data),
+      items: renderItems(data),
+      parts: renderParts(data),
+      issues: renderIssues(data),
+      setup: renderSetup(data)
+    };
+
+    app.innerHTML = Object.keys(panels).map(key =>
+      `<section class="panel ${key === 'now' ? 'active' : ''}" id="panel-${key}">${panels[key]}</section>`
+    ).join("");
+
+    document.querySelectorAll("nav.tabs button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("nav.tabs button").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll("section.panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
+      });
+    });
+  } catch (err) {
+    app.innerHTML = `<div class="error">Couldn't load dashboard data.<br>${err.message}</div>`;
+  }
+}
+
+init();
+</script>
+</body>
+</html>
