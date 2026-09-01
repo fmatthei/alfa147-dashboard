@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-31",
+  "generated_at": "2026-09-01",
   "vehicle": {
     "label": "Alfa Romeo 147",
-    "current_km": 133458,
-    "km_recorded_date": "2026-08-14"
+    "current_km": 133676,
+    "km_recorded_date": "2026-09-01"
   },
   "summary": {
     "overdue_count": 3,
@@ -15,24 +15,24 @@
     {
       "id": "engine-oil",
       "name": "Aceite Motor (vaciar/llenar)",
-      "label": "1360d overdue · 8,688 km overdue"
+      "label": "1361d overdue · 8,906 km overdue"
     },
     {
       "id": "oil-filter",
       "name": "Filtro de Aceite (cambiar)",
-      "label": "1360d overdue · 8,688 km overdue"
+      "label": "1361d overdue · 8,906 km overdue"
     },
     {
       "id": "coolant",
       "name": "Coolant (vaciar/llenar)",
-      "label": "318d overdue"
+      "label": "319d overdue"
     }
   ],
   "due_soon": [
     {
       "id": "top-up-oil",
       "name": "Rellenar Aceite",
-      "label": "due in 44d"
+      "label": "due in 43d"
     }
   ],
   "pending_parts": [],
