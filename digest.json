@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01",
+  "generated_at": "2026-09-14",
   "vehicle": {
     "label": "Alfa Romeo 147",
     "current_km": 133676,
@@ -7,32 +7,37 @@
   },
   "summary": {
     "overdue_count": 3,
-    "soon_count": 1,
+    "soon_count": 2,
     "pending_parts_count": 0,
-    "open_issues_count": 7
+    "open_issues_count": 8
   },
   "overdue": [
     {
       "id": "engine-oil",
       "name": "Aceite Motor (vaciar/llenar)",
-      "label": "1361d overdue · 8,906 km overdue"
+      "label": "1374d overdue · 8,906 km overdue"
     },
     {
       "id": "oil-filter",
       "name": "Filtro de Aceite (cambiar)",
-      "label": "1361d overdue · 8,906 km overdue"
+      "label": "1374d overdue · 8,906 km overdue"
     },
     {
       "id": "coolant",
       "name": "Coolant (vaciar/llenar)",
-      "label": "319d overdue"
+      "label": "332d overdue"
     }
   ],
   "due_soon": [
     {
       "id": "top-up-oil",
       "name": "Rellenar Aceite",
-      "label": "due in 43d"
+      "label": "due in 30d"
+    },
+    {
+      "id": "top-up-coolant",
+      "name": "Rellenar Coolant",
+      "label": "due in 58d"
     }
   ],
   "pending_parts": [],
@@ -70,6 +75,11 @@
     {
       "id": "wheel-bearings",
       "name": "Rodamientos (x2) (cambiar)",
+      "status": "open"
+    },
+    {
+      "id": "front-speakers",
+      "name": "Parlantes delanteros (revisar)",
       "status": "open"
     }
   ],
