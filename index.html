@@ -780,7 +780,10 @@ function simpleRow(ci){
 /* ================= RENDER: PARTS TAB (pending parts + issues) ================= */
 function renderParts(){
   const parts = DATA.pending_parts || [];
-  const issues = DATA.body_and_other_issues || [];
+  const issues = [...(DATA.body_and_other_issues || [])];
+
+  const order = {open:0, evaluate:1, resolved:2};
+  issues.sort((a,b)=> (order[a.status] ?? 1) - (order[b.status] ?? 1));
 
   let html = '<div class="subhead">Pending parts</div>';
   html += parts.length ? parts.map(p=>`
@@ -792,14 +795,23 @@ function renderParts(){
     </div>`).join('') : `<div class="empty">No pending parts.</div>`;
 
   html += '<div class="subhead">Body &amp; other issues</div>';
-  html += issues.length ? issues.map(i=>`
-    <div class="simple-row">
+  html += issues.length ? issues.map(i=>{
+    const chipCls = i.status==='open' ? 'chip-filled c-critical'
+                   : i.status==='resolved' ? 'chip-outline'
+                   : 'chip-outline c-warn';
+    const chipLabel = i.status==='open' ? 'Open'
+                     : i.status==='resolved' ? 'Resolved'
+                     : 'Evaluate';
+    const dim = i.status==='resolved' ? 'opacity:0.55;' : '';
+    return `
+    <div class="simple-row" style="${dim}">
       <div>
         <div class="l">${i.name}</div>
         <div class="r">${i.notes||''}</div>
       </div>
-      <span class="chip ${i.status==='open'?'chip-filled c-critical':'chip-outline c-warn'}">${i.status==='open'?'Open':'Evaluate'}</span>
-    </div>`).join('') : `<div class="empty">No open issues.</div>`;
+      <span class="chip ${chipCls}">${chipLabel}</span>
+    </div>`;
+  }).join('') : `<div class="empty">No open issues.</div>`;
 
   document.getElementById('tab-parts').innerHTML = html;
 }
