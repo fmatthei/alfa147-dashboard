@@ -667,7 +667,7 @@ function renderNow(){
     </div>`;
   }
 
-  html += group('Coming up', ontrack);
+  html += renderComingUp(ontrack);
 
   html += `
     <div class="cta-card">
@@ -684,6 +684,23 @@ function renderNow(){
   document.querySelectorAll('#tab-now .row[data-id]').forEach(el=>{
     el.addEventListener('click', ()=> openSheet(el.dataset.id));
   });
+}
+
+function renderComingUp(ontrack){
+  const in3mo = [], in12mo = [], later = [], noDate = [];
+  ontrack.forEach(ci=>{
+    const d = ci.status.daysLeft;
+    if (d == null){ noDate.push(ci); return; }
+    if (d <= 90) in3mo.push(ci);
+    else if (d <= 365) in12mo.push(ci);
+    else later.push(ci);
+  });
+  let html = '';
+  html += group('Coming up &middot; next 3 months', in3mo);
+  html += group('Coming up &middot; next 12 months', in12mo);
+  html += group('Coming up &middot; later', later);
+  html += group('No date on record', noDate);
+  return html;
 }
 
 function group(title, list){
