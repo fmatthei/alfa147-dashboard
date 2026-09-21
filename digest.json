@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14",
+  "generated_at": "2026-09-21",
   "vehicle": {
     "label": "Alfa Romeo 147",
     "current_km": 133676,
@@ -9,35 +9,35 @@
     "overdue_count": 3,
     "soon_count": 2,
     "pending_parts_count": 0,
-    "open_issues_count": 8
+    "open_issues_count": 5
   },
   "overdue": [
     {
       "id": "engine-oil",
       "name": "Aceite Motor (vaciar/llenar)",
-      "label": "1374d overdue · 8,906 km overdue"
+      "label": "1381d overdue · 8,906 km overdue"
     },
     {
       "id": "oil-filter",
       "name": "Filtro de Aceite (cambiar)",
-      "label": "1374d overdue · 8,906 km overdue"
+      "label": "1381d overdue · 8,906 km overdue"
     },
     {
       "id": "coolant",
       "name": "Coolant (vaciar/llenar)",
-      "label": "332d overdue"
+      "label": "339d overdue"
     }
   ],
   "due_soon": [
     {
       "id": "top-up-oil",
       "name": "Rellenar Aceite",
-      "label": "due in 30d"
+      "label": "due in 23d"
     },
     {
       "id": "top-up-coolant",
       "name": "Rellenar Coolant",
-      "label": "due in 58d"
+      "label": "due in 51d"
     }
   ],
   "pending_parts": [],
@@ -60,21 +60,6 @@
     {
       "id": "clutch-kit",
       "name": "Kit de embrague (cambiar)",
-      "status": "open"
-    },
-    {
-      "id": "control-arm",
-      "name": "Bandeja (cambiar)",
-      "status": "open"
-    },
-    {
-      "id": "lambda-sensor",
-      "name": "Sensor sonda lambda (cambiar)",
-      "status": "open"
-    },
-    {
-      "id": "wheel-bearings",
-      "name": "Rodamientos (x2) (cambiar)",
       "status": "open"
     },
     {
