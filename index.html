@@ -629,6 +629,7 @@ function renderNow(){
 
   const pendingParts = DATA.pending_parts || [];
   const openIssues = (DATA.body_and_other_issues || []).filter(i=>i.status !== 'resolved');
+  openIssues.sort((a,b)=> (a.status==='open'?0:1) - (b.status==='open'?0:1));
 
   let html = '';
   html += group('Overdue', overdue);
