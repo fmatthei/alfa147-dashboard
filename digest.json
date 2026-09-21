@@ -9,7 +9,7 @@
     "overdue_count": 3,
     "soon_count": 2,
     "pending_parts_count": 0,
-    "open_issues_count": 5
+    "open_issues_count": 4
   },
   "overdue": [
     {
@@ -42,11 +42,6 @@
   ],
   "pending_parts": [],
   "open_issues": [
-    {
-      "id": "roof-leak-copiloto",
-      "name": "Filtración de techo (destapar desagüe copiloto)",
-      "status": "open"
-    },
     {
       "id": "front-bumper",
       "name": "Parachoques delantero",
