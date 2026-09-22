@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21",
+  "generated_at": "2026-09-22",
   "vehicle": {
     "label": "Alfa Romeo 147",
     "current_km": 133676,
@@ -15,29 +15,29 @@
     {
       "id": "engine-oil",
       "name": "Aceite Motor (vaciar/llenar)",
-      "label": "1381d overdue · 8,906 km overdue"
+      "label": "1382d overdue · 8,906 km overdue"
     },
     {
       "id": "oil-filter",
       "name": "Filtro de Aceite (cambiar)",
-      "label": "1381d overdue · 8,906 km overdue"
+      "label": "1382d overdue · 8,906 km overdue"
     },
     {
       "id": "coolant",
       "name": "Coolant (vaciar/llenar)",
-      "label": "339d overdue"
+      "label": "340d overdue"
     }
   ],
   "due_soon": [
     {
       "id": "top-up-oil",
       "name": "Rellenar Aceite",
-      "label": "due in 23d"
+      "label": "due in 22d"
     },
     {
       "id": "top-up-coolant",
       "name": "Rellenar Coolant",
-      "label": "due in 51d"
+      "label": "due in 50d"
     }
   ],
   "pending_parts": [],
@@ -45,6 +45,11 @@
     {
       "id": "front-bumper",
       "name": "Parachoques delantero",
+      "status": "open"
+    },
+    {
+      "id": "front-speakers",
+      "name": "Parlantes delanteros (revisar)",
       "status": "open"
     },
     {
@@ -56,11 +61,6 @@
       "id": "clutch-kit",
       "name": "Kit de embrague (cambiar)",
       "status": "evaluate"
-    },
-    {
-      "id": "front-speakers",
-      "name": "Parlantes delanteros (revisar)",
-      "status": "open"
     }
   ],
   "dashboard_url": "https://fmatthei.github.io/alfa147-dashboard/"
