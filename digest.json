@@ -1,43 +1,48 @@
 {
-  "generated_at": "2026-09-22",
+  "generated_at": "2026-10-22",
   "vehicle": {
     "label": "Alfa Romeo 147",
     "current_km": 133676,
     "km_recorded_date": "2026-09-01"
   },
   "summary": {
-    "overdue_count": 3,
+    "overdue_count": 4,
     "soon_count": 2,
     "pending_parts_count": 0,
     "open_issues_count": 4
   },
   "overdue": [
     {
+      "id": "top-up-oil",
+      "name": "Rellenar Aceite",
+      "label": "8d overdue"
+    },
+    {
       "id": "engine-oil",
       "name": "Aceite Motor (vaciar/llenar)",
-      "label": "1382d overdue · 8,906 km overdue"
+      "label": "1412d overdue · 8,906 km overdue"
     },
     {
       "id": "oil-filter",
       "name": "Filtro de Aceite (cambiar)",
-      "label": "1382d overdue · 8,906 km overdue"
+      "label": "1412d overdue · 8,906 km overdue"
     },
     {
       "id": "coolant",
-      "name": "Coolant (vaciar/llenar)",
-      "label": "340d overdue"
+      "name": "Rellenar Coolant/Agua",
+      "label": "253d overdue"
     }
   ],
   "due_soon": [
     {
-      "id": "top-up-oil",
-      "name": "Rellenar Aceite",
-      "label": "due in 22d"
-    },
-    {
       "id": "top-up-coolant",
       "name": "Rellenar Coolant",
-      "label": "due in 50d"
+      "label": "due in 20d"
+    },
+    {
+      "id": "tire-pressure",
+      "name": "Presión neumáticos",
+      "label": "due in 40d"
     }
   ],
   "pending_parts": [],
