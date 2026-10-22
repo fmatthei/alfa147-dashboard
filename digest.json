@@ -2,31 +2,16 @@
   "generated_at": "2026-10-22",
   "vehicle": {
     "label": "Alfa Romeo 147",
-    "current_km": 133676,
-    "km_recorded_date": "2026-09-01"
+    "current_km": 134205,
+    "km_recorded_date": "2026-10-22"
   },
   "summary": {
-    "overdue_count": 4,
+    "overdue_count": 1,
     "soon_count": 1,
     "pending_parts_count": 0,
-    "open_issues_count": 4
+    "open_issues_count": 3
   },
   "overdue": [
-    {
-      "id": "top-up-oil",
-      "name": "Rellenar Aceite",
-      "label": "8d overdue"
-    },
-    {
-      "id": "engine-oil",
-      "name": "Aceite Motor (vaciar/llenar)",
-      "label": "1412d overdue · 8,906 km overdue"
-    },
-    {
-      "id": "oil-filter",
-      "name": "Filtro de Aceite (cambiar)",
-      "label": "1412d overdue · 8,906 km overdue"
-    },
     {
       "id": "coolant",
       "name": "Rellenar Coolant/Agua",
@@ -45,11 +30,6 @@
     {
       "id": "front-bumper",
       "name": "Parachoques delantero",
-      "status": "open"
-    },
-    {
-      "id": "front-speakers",
-      "name": "Parlantes delanteros (revisar)",
       "status": "open"
     },
     {
