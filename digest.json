@@ -7,7 +7,7 @@
   },
   "summary": {
     "overdue_count": 4,
-    "soon_count": 2,
+    "soon_count": 1,
     "pending_parts_count": 0,
     "open_issues_count": 4
   },
@@ -34,11 +34,6 @@
     }
   ],
   "due_soon": [
-    {
-      "id": "top-up-coolant",
-      "name": "Rellenar Coolant",
-      "label": "due in 20d"
-    },
     {
       "id": "tire-pressure",
       "name": "Presión neumáticos",
