@@ -1,0 +1,225 @@
+{
+  "vehicle": {
+    "make": "Alfa Romeo",
+    "model": "147",
+    "engine": "1.6 TS (Twin Spark)",
+    "current_km": 134205,
+    "km_recorded_date": "2026-10-22"
+  },
+  "maintenance_items": [
+    {
+      "id": "top-up-oil",
+      "name": "Rellenar Aceite",
+      "category": "fluids",
+      "last_done_date": "2026-10-22",
+      "last_done_km": 134205,
+      "interval_km": null,
+      "interval_months": 2,
+      "notes": "El motor consume aceite entre cambios — revisar nivel."
+    },
+    {
+      "id": "engine-oil",
+      "name": "Aceite Motor (vaciar/llenar)",
+      "category": "fluids",
+      "last_done_date": "2026-10-22",
+      "last_done_km": 134205,
+      "interval_km": 15000,
+      "interval_months": 12,
+      "notes": ""
+    },
+    {
+      "id": "oil-filter",
+      "name": "Filtro de Aceite (cambiar)",
+      "category": "fluids",
+      "last_done_date": "2026-10-22",
+      "last_done_km": 134205,
+      "interval_km": 15000,
+      "interval_months": 12,
+      "notes": ""
+    },
+    {
+      "id": "coolant",
+      "name": "Rellenar Coolant/Agua",
+      "category": "fluids",
+      "last_done_date": "2025-11-11",
+      "last_done_km": null,
+      "interval_km": null,
+      "interval_months": 3,
+      "notes": ""
+    },
+    {
+      "id": "brake-fluid",
+      "name": "Líquido de frenos",
+      "category": "fluids",
+      "last_done_date": null,
+      "last_done_km": null,
+      "interval_km": null,
+      "interval_months": 24,
+      "notes": "No record found — possibly done unrecorded during another service. Owner to ask at next shop visit."
+    },
+    {
+      "id": "timing-belt",
+      "name": "Correa de distribución + tensores + bomba de agua",
+      "category": "engine",
+      "last_done_date": "2021-12-10",
+      "last_done_km": 109770,
+      "interval_km": null,
+      "interval_months": 72,
+      "notes": "Planificado para diciembre 2027, confirmado con Cristian Ramirez (se puede hacer hasta esa fecha). Se hace junto con la bomba de agua; en ese momento se vacía y rellena el coolant completo."
+    },
+    {
+      "id": "brake-pads",
+      "name": "Pastillas / discos de freno",
+      "category": "brakes",
+      "last_done_date": null,
+      "last_done_km": null,
+      "interval_km": null,
+      "interval_months": null,
+      "notes": "Discos bastante gastados (revisado en taller 21/09/2026). Cuando se cambien las pastillas, cambiar también los 4 discos."
+    },
+    {
+      "id": "spark-plugs",
+      "name": "Bujías",
+      "category": "ignition",
+      "last_done_date": "2025-11-11",
+      "last_done_km": null,
+      "interval_km": 40000,
+      "interval_months": null,
+      "notes": "Inspected alongside gasket replacement."
+    },
+    {
+      "id": "air-filter",
+      "name": "Filtro de aire",
+      "category": "filters",
+      "last_done_date": null,
+      "last_done_km": null,
+      "interval_km": 20000,
+      "interval_months": 36,
+      "notes": "Never replaced, cleaned occasionally."
+    },
+    {
+      "id": "fuel-filter",
+      "name": "Filtro de combustible",
+      "category": "filters",
+      "last_done_date": null,
+      "last_done_km": null,
+      "interval_km": null,
+      "interval_months": null,
+      "notes": "Changed long ago, exact date unknown."
+    },
+    {
+      "id": "cabin-filter",
+      "name": "Filtro de habitáculo",
+      "category": "filters",
+      "last_done_date": null,
+      "last_done_km": null,
+      "interval_km": 20000,
+      "interval_months": 12,
+      "notes": "Never replaced, cleaned occasionally."
+    },
+    {
+      "id": "tire-pressure",
+      "name": "Presión neumáticos",
+      "category": "tires",
+      "last_done_date": "2026-09-01",
+      "last_done_km": 133676,
+      "interval_km": null,
+      "interval_months": 3,
+      "notes": "Última vez: 34 PSI."
+    },
+    {
+      "id": "tires",
+      "name": "Neumáticos (Pirelli Cinturato P1 Plus)",
+      "category": "tires",
+      "last_done_date": "2024-07-10",
+      "last_done_km": 124378,
+      "interval_km": null,
+      "interval_months": 60,
+      "notes": "Owner's own note: due again around 2029."
+    }
+  ],
+  "pending_parts": [],
+  "body_and_other_issues": [
+    {
+      "id": "roof-leak",
+      "name": "Filtración de techo (destapar desagüe piloto)",
+      "status": "resolved",
+      "notes": "Resuelto 20/08/2026"
+    },
+    {
+      "id": "roof-leak-copiloto",
+      "name": "Filtración de techo (destapar desagüe copiloto)",
+      "status": "resolved",
+      "notes": "Resuelto 2026-09-21 — desagüe destapado en el taller."
+    },
+    {
+      "id": "front-bumper",
+      "name": "Parachoques delantero",
+      "status": "open",
+      "notes": null
+    },
+    {
+      "id": "body-panel-left",
+      "name": "Lado izquierdo (carrocería)",
+      "status": "evaluate",
+      "notes": "Evaluate whether repair is worth it"
+    },
+    {
+      "id": "clutch-kit",
+      "name": "Kit de embrague (cambiar)",
+      "status": "evaluate",
+      "notes": "Planificado para diciembre 2027 (coincide con el cambio de correa de distribución). Embrague actual con vida útil estimada de ~1 año más de uso al momento de la revisión (sep 2026)."
+    },
+    {
+      "id": "control-arm",
+      "name": "Bandeja (cambiar)",
+      "status": "resolved",
+      "notes": "Instalado en el taller el 2026-09-21."
+    },
+    {
+      "id": "lambda-sensor",
+      "name": "Sensor sonda lambda (cambiar)",
+      "status": "resolved",
+      "notes": "Instalado en el taller el 2026-09-21."
+    },
+    {
+      "id": "wheel-bearings",
+      "name": "Rodamientos (x2) (cambiar)",
+      "status": "resolved",
+      "notes": "Instalado en el taller el 2026-09-21."
+    },
+    {
+      "id": "front-speakers",
+      "name": "Parlantes delanteros (revisar)",
+      "status": "resolved",
+      "notes": "Conexión reparada en el taller el 2026-10-22."
+    }
+  ],
+  "oil_consumption_log": [
+    {
+      "date": "2026-08-14",
+      "km": 133458,
+      "level": "full",
+      "notes": "Topped up 2nd liter, level near max."
+    },
+    {
+      "date": "2026-10-22",
+      "km": 134205,
+      "level": "full",
+      "notes": "Cambio completo de aceite y filtro (Millers 10w40). Nueva línea base."
+    }
+  ],
+  "service_log_source": "Google Sheet bitácora (manual entries, not duplicated here — this state.json tracks status/cadence, not full history)",
+  "meta": {
+    "schema_version": 1,
+    "last_updated": "2026-10-22",
+    "names_language": "es"
+  },
+  "fuel_log": [
+    {
+      "date": "2026-09-01",
+      "km": 133676,
+      "liters": 56
+    }
+  ]
+}
