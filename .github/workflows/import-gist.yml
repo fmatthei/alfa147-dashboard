@@ -1,0 +1,18 @@
+name: Import state.json from Gist (one-off)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy the Gist's state.json into the repo
+        run: |
+          curl -fsSL "https://api.github.com/gists/be953a5144f5dd80c230cc992a9352bf" | jq -er '.files["state.json"].content' > state.json
+          jq -e '.maintenance_items | length > 0' state.json > /dev/null
+          git config user.name "dashboard-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          git commit -m "Import state.json from Gist" && git push
