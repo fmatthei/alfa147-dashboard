@@ -1,27 +1,23 @@
 """
 Alfa 147 Dashboard - digest generator.
 
-Reads state.json (refreshed from the Gist) and writes:
+Reads state.json (the source of truth, in this repo) and writes:
   - digest.json  : full computed digest (legacy / reference)
   - tuesday.txt  : tiny pipe-delimited file the Tuesday scheduled task fetches
                    (must stay small so web_fetch returns it verbatim)
 
 Usage:
-  python3 build_digest.py           # build only
-  python3 build_digest.py --push    # build + push digest.json, tuesday.txt and this script to the repo
+  python3 build_digest.py           # build tuesday.txt and digest.json
+
+Runs automatically in GitHub Actions (.github/workflows/recompute.yml) every
+morning and whenever state.json changes; the Action commits the results.
 
 Rules baked in:
   - NEVER hardcode the date: always date.today().
   - Open issues sorted open-before-evaluate (mirrors the dashboard Now tab).
   - Keep tuesday.txt well under ~1 KB.
-Token is read from the GH_TOKEN env var or a local .token file (never committed).
 """
-import base64
 import json
-import os
-import sys
-import urllib.error
-import urllib.request
 from datetime import date
 
 REPO = "fmatthei/alfa147-dashboard"
@@ -172,37 +168,3 @@ with open("tuesday.txt", "w", encoding="utf-8") as f:
 size = len(tuesday.encode("utf-8"))
 print(tuesday)
 print(f"\n--- tuesday.txt: {len(lines)} lines, {size} bytes", "(OK)" if size <= 1200 else "(WARNING: >1200 bytes, web_fetch may summarize it)")
-
-
-# ---------------- push ----------------
-def _token():
-    t = os.environ.get("GH_TOKEN")
-    if t:
-        return t.strip()
-    return open(".token").read().strip()
-
-
-def push_file(path, message):
-    token = _token()
-    url = f"https://api.github.com/repos/{REPO}/contents/{path}"
-    headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
-    sha = None
-    try:
-        sha = json.loads(urllib.request.urlopen(urllib.request.Request(url, headers=headers)).read())["sha"]
-    except urllib.error.HTTPError as e:
-        if e.code != 404:
-            raise
-    body = {"message": message, "content": base64.b64encode(open(path, "rb").read()).decode("ascii")}
-    if sha:
-        body["sha"] = sha
-    req = urllib.request.Request(url, data=json.dumps(body).encode(), method="PUT",
-                                 headers={**headers, "Content-Type": "application/json"})
-    resp = urllib.request.urlopen(req)
-    print(f"pushed {path}: HTTP {resp.status}")
-
-
-if "--push" in sys.argv:
-    msg = f"Digest refresh {today.isoformat()}"
-    push_file("tuesday.txt", msg)
-    push_file("digest.json", msg)
-    push_file("build_digest.py", msg)

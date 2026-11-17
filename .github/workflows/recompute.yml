@@ -1,0 +1,38 @@
+name: Recompute digest files
+
+# Rebuilds tuesday.txt and digest.json from state.json with the real current date,
+# so the Tuesday Claude task never reads a stale file.
+# Runs every morning, and right away whenever state.json or the script changes.
+on:
+  schedule:
+    - cron: "23 11 * * *"   # ~08:23 Santiago (summer) / 07:23 (winter), before the Tuesday 10:00 task
+  push:
+    branches: [main]
+    paths: [state.json, build_digest.py]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: recompute
+  cancel-in-progress: false
+
+jobs:
+  recompute:
+    runs-on: ubuntu-latest
+    env:
+      TZ: America/Santiago
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate state.json
+        run: jq -e '.maintenance_items | length > 0' state.json > /dev/null
+
+      - name: Rebuild and commit
+        run: |
+          python3 build_digest.py
+          git config user.name "dashboard-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tuesday.txt digest.json
+          git diff --cached --quiet && echo "No changes" || (git commit -m "Digest refresh $(date +%F)" && git pull --rebase -q && git push)

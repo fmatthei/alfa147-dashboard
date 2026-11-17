@@ -436,16 +436,26 @@
 
 <script>
 
-const GIST_URL = "https://gist.githubusercontent.com/fmatthei/be953a5144f5dd80c230cc992a9352bf/raw/state.json";
+// state.json lives in this repo. The GitHub API returns the latest commit immediately;
+// the Pages copy can lag a minute after a change, so it is only the fallback.
+const STATE_API = "https://api.github.com/repos/fmatthei/alfa147-dashboard/contents/state.json?ref=main";
+const STATE_PAGES = "state.json";
 let DATA = null;
+
+async function fetchState() {
+  try {
+    const r = await fetch(STATE_API + '&t=' + Date.now(), {headers: {Accept: 'application/vnd.github.raw+json'}, cache: 'no-store'});
+    if (r.ok) return await r.json();
+  } catch (e) { console.warn('API read failed, using Pages copy', e); }
+  const r = await fetch(STATE_PAGES + '?t=' + Date.now(), {cache: 'no-store'});
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return await r.json();
+}
 
 async function loadData() {
   const ls = document.getElementById('loadingScreen');
   try {
-    const cacheBust = '?t=' + Date.now();
-    const resp = await fetch(GIST_URL + cacheBust);
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    DATA = await resp.json();
+    DATA = await fetchState();
     ls.classList.add('done');
     setTimeout(() => ls.remove(), 400);
     initHeader();
@@ -848,7 +858,7 @@ function renderSetup(){
 
     <div class="setup-card">
       <h3>Where this record lives</h3>
-      <div class="setup-line"><span class="k">Storage</span><span class="v">GitHub Gist</span></div>
+      <div class="setup-line"><span class="k">Storage</span><span class="v">GitHub repo (state.json)</span></div>
       <div class="setup-line"><span class="k">File</span><span class="v">state.json</span></div>
       <div class="setup-line"><span class="k">Repo</span><span class="v">alfa147-dashboard</span></div>
       <div class="setup-line"><span class="k">Schema version</span><span class="v">${DATA.meta ? DATA.meta.schema_version : '&mdash;'}</span></div>
