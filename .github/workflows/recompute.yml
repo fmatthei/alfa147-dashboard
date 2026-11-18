@@ -5,7 +5,9 @@ name: Recompute digest files
 # Runs every morning, and right away whenever state.json or the script changes.
 on:
   schedule:
-    - cron: "23 11 * * *"   # ~08:23 Santiago (summer) / 07:23 (winter), before the Tuesday 10:00 task
+    # Two times as a safety net: GitHub can delay or skip scheduled runs.
+    - cron: "47 6 * * *"    # ~03:47 Santiago (summer)
+    - cron: "23 11 * * *"   # ~08:23 Santiago (summer), before the Tuesday 10:00 task
   push:
     branches: [main]
     paths: [state.json, build_digest.py]
