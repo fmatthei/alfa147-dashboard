@@ -10,7 +10,7 @@ on:
     - cron: "23 11 * * *"   # ~08:23 Santiago (summer), before the Tuesday 10:00 task
   push:
     branches: [main]
-    paths: [state.json, build_digest.py]
+    paths: [state.json, build_digest.py, status.py, .github/workflows/recompute.yml]
   workflow_dispatch:
 
 permissions:
@@ -34,7 +34,19 @@ jobs:
       - name: Rebuild and commit
         run: |
           python3 build_digest.py
+          python3 status.py . ok
           git config user.name "dashboard-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A tuesday.txt digest.json digest
-          git diff --cached --quiet && echo "No changes" || (git commit -m "Digest refresh $(date +%F)" && git pull --rebase -q && git push)
+          git add -A tuesday.txt digest.json digest status.txt
+          git commit -m "Digest refresh $(date +%F)" && git pull --rebase -q && git push
+
+      - name: Record the failure in status.txt
+        # Runs only if a step above failed, so the next email can say so.
+        if: ${{ failure() }}
+        run: |
+          git reset -q --hard
+          git config user.name "dashboard-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull -q --rebase || true
+          python3 status.py . FAILED "digest build failed, GitHub run ${{ github.run_id }}"
+          git add status.txt && git commit -m "Status: digest build failed $(date +%F)" && git push
