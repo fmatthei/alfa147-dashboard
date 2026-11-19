@@ -3,8 +3,10 @@ Alfa 147 Dashboard - digest generator.
 
 Reads state.json (the source of truth, in this repo) and writes:
   - digest.json  : full computed digest (legacy / reference)
-  - tuesday.txt  : tiny pipe-delimited file the Tuesday scheduled task fetches
-                   (must stay small so web_fetch returns it verbatim)
+  - tuesday.txt  : the digest as of today (legacy / reference)
+  - digest/YYYY-MM-DD.txt : the digest as of each upcoming Tuesday, pre-computed
+                   two weeks ahead and prefixed with COUNT|n. The Tuesday scheduled
+                   task fetches the file for its own date and checks the count.
 
 Usage:
   python3 build_digest.py           # build tuesday.txt and digest.json
@@ -18,13 +20,14 @@ Rules baked in:
   - Keep tuesday.txt well under ~1 KB.
 """
 import json
-from datetime import date
+import os
+from datetime import date, timedelta
 
 REPO = "fmatthei/alfa147-dashboard"
 DASHBOARD_URL = "https://fmatthei.github.io/alfa147-dashboard/"
 
 state = json.load(open("state.json", encoding="utf-8"))
-today = date.today()  # never hardcode the date
+TODAY = date.today()  # never hardcode the date
 current_km = state["vehicle"]["current_km"]
 
 
@@ -41,7 +44,7 @@ def add_months(d, months):
     return date(y, m, min(d.day, dim[m - 1]))
 
 
-def compute_status(item):
+def compute_status(item, today):
     last_date = parse(item.get("last_done_date"))
     last_km = item.get("last_done_km")
     interval_km = item.get("interval_km")
@@ -82,89 +85,114 @@ def compute_status(item):
     return {"state": state_, "label": label, "due": due_date.isoformat() if due_date else None}
 
 
-overdue, soon = [], []
-for item in state["maintenance_items"]:
-    st = compute_status(item)
-    row = {"id": item["id"], "name": item["name"], "label": st["label"], "due": st["due"]}
-    if st["state"] == "overdue":
-        overdue.append(row)
-    elif st["state"] == "soon":
-        soon.append(row)
 
-# Most overdue first (oldest due date first); due-soon soonest first
-overdue.sort(key=lambda r: r["due"] or "9999-12-31")
-soon.sort(key=lambda r: r["due"] or "9999-12-31")
-
-pending_parts = [
-    {"id": p["id"], "name": p["name"], "purchased_date": p.get("purchased_date")}
-    for p in state.get("pending_parts", [])
-]
-
-# Open before Evaluate (mirrors the dashboard Now tab); resolved excluded
-status_order = {"open": 0, "evaluate": 1}
-open_issues = [
-    {"id": i["id"], "name": i["name"], "status": i["status"]}
-    for i in sorted(
-        (i for i in state.get("body_and_other_issues", []) if i.get("status") != "resolved"),
-        key=lambda i: status_order.get(i.get("status"), 1),
-    )
-]
-
-digest = {
-    "generated_at": today.isoformat(),
-    "vehicle": {
-        "label": f"{state['vehicle']['make']} {state['vehicle']['model']}",
-        "current_km": current_km,
-        "km_recorded_date": state["vehicle"]["km_recorded_date"],
-    },
-    "summary": {
-        "overdue_count": len(overdue),
-        "soon_count": len(soon),
-        "pending_parts_count": len(pending_parts),
-        "open_issues_count": len(open_issues),
-    },
-    "overdue": overdue,
-    "due_soon": soon,
-    "pending_parts": pending_parts,
-    "open_issues": open_issues,
-    "dashboard_url": DASHBOARD_URL,
-}
-json.dump(digest, open("digest.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-
-
-# ---------------- tuesday.txt ----------------
 def clean(s):
     return str(s).replace("|", "/").replace("\n", " ").strip()
 
 
-title_parts = []
-if overdue:
-    title_parts.append(f"{len(overdue)} overdue")
-if soon:
-    title_parts.append(f"{len(soon)} due soon")
-if open_issues:
-    title_parts.append(f"{len(open_issues)} open issues")
-if pending_parts:
-    title_parts.append(f"{len(pending_parts)} parts pending")
-title = " · ".join(title_parts) if title_parts else "all clear ✓"
+def build(today):
+    """Digest as of `today`: returns (digest dict, tuesday.txt lines)."""
+    overdue, soon = [], []
+    for item in state["maintenance_items"]:
+        st = compute_status(item, today)
+        row = {"id": item["id"], "name": item["name"], "label": st["label"], "due": st["due"]}
+        if st["state"] == "overdue":
+            overdue.append(row)
+        elif st["state"] == "soon":
+            soon.append(row)
 
-lines = [
-    f"TITLE|{title}",
-    f"META|{today.isoformat()}|{current_km:,}|{state['vehicle']['km_recorded_date']}",
-]
-for r in overdue:
-    lines.append(f"OVERDUE|{clean(r['name'])}|{clean(r['label'].replace(' · ', ', '))}|{('due ' + r['due']) if r['due'] else '-'}")
-for r in soon:
-    lines.append(f"DUESOON|{clean(r['name'])}|{clean(r['label'].replace(' · ', ', '))}|{('due ' + r['due']) if r['due'] else '-'}")
-for p in pending_parts:
-    lines.append(f"PART|{clean(p['name'])}|Not installed|{('bought ' + p['purchased_date']) if p.get('purchased_date') else '-'}")
-for i in open_issues:
-    lines.append(f"ISSUE|{clean(i['name'])}|{'Open' if i['status'] == 'open' else 'To evaluate'}|-")
+    # Most overdue first (oldest due date first); due-soon soonest first
+    overdue.sort(key=lambda r: r["due"] or "9999-12-31")
+    soon.sort(key=lambda r: r["due"] or "9999-12-31")
 
+    pending_parts = [
+        {"id": p["id"], "name": p["name"], "purchased_date": p.get("purchased_date")}
+        for p in state.get("pending_parts", [])
+    ]
+
+    # Open before Evaluate (mirrors the dashboard Now tab); resolved excluded
+    status_order = {"open": 0, "evaluate": 1}
+    open_issues = [
+        {"id": i["id"], "name": i["name"], "status": i["status"]}
+        for i in sorted(
+            (i for i in state.get("body_and_other_issues", []) if i.get("status") != "resolved"),
+            key=lambda i: status_order.get(i.get("status"), 1),
+        )
+    ]
+
+    digest = {
+        "generated_at": today.isoformat(),
+        "vehicle": {
+            "label": f"{state['vehicle']['make']} {state['vehicle']['model']}",
+            "current_km": current_km,
+            "km_recorded_date": state["vehicle"]["km_recorded_date"],
+        },
+        "summary": {
+            "overdue_count": len(overdue),
+            "soon_count": len(soon),
+            "pending_parts_count": len(pending_parts),
+            "open_issues_count": len(open_issues),
+        },
+        "overdue": overdue,
+        "due_soon": soon,
+        "pending_parts": pending_parts,
+        "open_issues": open_issues,
+        "dashboard_url": DASHBOARD_URL,
+    }
+
+
+    title_parts = []
+    if overdue:
+        title_parts.append(f"{len(overdue)} overdue")
+    if soon:
+        title_parts.append(f"{len(soon)} due soon")
+    if open_issues:
+        title_parts.append(f"{len(open_issues)} open issues")
+    if pending_parts:
+        title_parts.append(f"{len(pending_parts)} parts pending")
+    title = " · ".join(title_parts) if title_parts else "all clear ✓"
+
+    lines = [
+        f"TITLE|{title}",
+        f"META|{today.isoformat()}|{current_km:,}|{state['vehicle']['km_recorded_date']}",
+    ]
+    for r in overdue:
+        lines.append(f"OVERDUE|{clean(r['name'])}|{clean(r['label'].replace(' · ', ', '))}|{('due ' + r['due']) if r['due'] else '-'}")
+    for r in soon:
+        lines.append(f"DUESOON|{clean(r['name'])}|{clean(r['label'].replace(' · ', ', '))}|{('due ' + r['due']) if r['due'] else '-'}")
+    for p in pending_parts:
+        lines.append(f"PART|{clean(p['name'])}|Not installed|{('bought ' + p['purchased_date']) if p.get('purchased_date') else '-'}")
+    for i in open_issues:
+        lines.append(f"ISSUE|{clean(i['name'])}|{'Open' if i['status'] == 'open' else 'To evaluate'}|-")
+    return digest, lines
+
+
+def write(path, text):
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(text)
+
+
+digest, lines = build(TODAY)
+json.dump(digest, open("digest.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 tuesday = "\n".join(lines)
-with open("tuesday.txt", "w", encoding="utf-8") as f:
-    f.write(tuesday)
-
+write("tuesday.txt", tuesday)
 size = len(tuesday.encode("utf-8"))
 print(tuesday)
 print(f"\n--- tuesday.txt: {len(lines)} lines, {size} bytes", "(OK)" if size <= 1200 else "(WARNING: >1200 bytes, web_fetch may summarize it)")
+
+# Dated digests for each upcoming Tuesday (14 days ahead), with COUNT|n first.
+# Pre-computing means a skipped daily run never leaves the Tuesday task with a stale file.
+os.makedirs("digest", exist_ok=True)
+for name in os.listdir("digest"):
+    try:
+        if date.fromisoformat(name[:-4]) < TODAY:
+            os.remove(os.path.join("digest", name))
+    except ValueError:
+        pass
+for off in range(14):
+    day = TODAY + timedelta(days=off)
+    if day.weekday() == 1:
+        _, dl = build(day)
+        write(f"digest/{day}.txt", "\n".join([f"COUNT|{len(dl)}"] + dl) + "\n")
+        print(f"digest/{day}.txt: {len(dl)} line(s)")

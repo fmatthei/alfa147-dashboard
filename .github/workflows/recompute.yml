@@ -36,5 +36,5 @@ jobs:
           python3 build_digest.py
           git config user.name "dashboard-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add tuesday.txt digest.json
+          git add -A tuesday.txt digest.json digest
           git diff --cached --quiet && echo "No changes" || (git commit -m "Digest refresh $(date +%F)" && git pull --rebase -q && git push)
