@@ -7,7 +7,7 @@ Lines (after COUNT|n):
   DATA|<when state.json last changed, Santiago time>
   RUN|<now, Santiago time>|ok or FAILED|<reason or ->
   COVERAGE|<last date that has a pre-built alert file>
-  NEXTDIGEST|<next date that has a pre-built weekly digest file>
+  NEXTDIGEST|<first date after today that has a pre-built weekly digest file (next week's)>
 Times use the runner's TZ (the workflow sets TZ=America/Santiago).
 """
 import datetime as dt
@@ -54,7 +54,7 @@ def main():
     reason = (sys.argv[3] if len(sys.argv) > 3 else "-").replace("|", "/").replace("\n", " ")
     today = dt.date.today()
     alerts = [d for d in dated_files(os.path.join(out_dir, "alerts")) if d >= today]
-    digests = [d for d in dated_files(os.path.join(out_dir, "digest")) if d >= today]
+    digests = [d for d in dated_files(os.path.join(out_dir, "digest")) if d > today]
     lines = [
         f"DATA|{data_changed(out_dir)}",
         f"RUN|{local(dt.datetime.now(dt.timezone.utc))}|{result}|{reason}",
