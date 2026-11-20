@@ -1,7 +1,6 @@
-COUNT|8
-TITLE|1 overdue · 2 due soon · 3 open issues
-META|2026-11-24|134,205|2026-10-22
-OVERDUE|Rellenar Coolant/Agua|286d overdue|due 2026-02-11
+COUNT|7
+TITLE|2 due soon · 3 open issues
+META|2026-11-24|134,636|2026-11-20
 DUESOON|Presión neumáticos|due in 7d|due 2026-12-01
 DUESOON|Rellenar Aceite|due in 28d|due 2026-12-22
 ISSUE|Parachoques delantero|Open|-

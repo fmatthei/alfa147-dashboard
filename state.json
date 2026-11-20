@@ -3,8 +3,8 @@
     "make": "Alfa Romeo",
     "model": "147",
     "engine": "1.6 TS (Twin Spark)",
-    "current_km": 134205,
-    "km_recorded_date": "2026-10-22"
+    "current_km": 134636,
+    "km_recorded_date": "2026-11-20"
   },
   "maintenance_items": [
     {
@@ -41,8 +41,8 @@
       "id": "coolant",
       "name": "Rellenar Coolant/Agua",
       "category": "fluids",
-      "last_done_date": "2025-11-11",
-      "last_done_km": null,
+      "last_done_date": "2026-11-20",
+      "last_done_km": 134636,
       "interval_km": null,
       "interval_months": 3,
       "notes": ""
@@ -212,7 +212,7 @@
   "service_log_source": "Google Sheet bitácora (manual entries, not duplicated here — this state.json tracks status/cadence, not full history)",
   "meta": {
     "schema_version": 1,
-    "last_updated": "2026-10-22",
+    "last_updated": "2026-11-20",
     "names_language": "es"
   },
   "fuel_log": [
@@ -220,6 +220,11 @@
       "date": "2026-09-01",
       "km": 133676,
       "liters": 56
+    },
+    {
+      "date": "2026-11-20",
+      "km": 134636,
+      "liters": null
     }
   ]
 }

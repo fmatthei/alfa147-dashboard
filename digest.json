@@ -2,23 +2,16 @@
   "generated_at": "2026-11-20",
   "vehicle": {
     "label": "Alfa Romeo 147",
-    "current_km": 134205,
-    "km_recorded_date": "2026-10-22"
+    "current_km": 134636,
+    "km_recorded_date": "2026-11-20"
   },
   "summary": {
-    "overdue_count": 1,
+    "overdue_count": 0,
     "soon_count": 2,
     "pending_parts_count": 0,
     "open_issues_count": 3
   },
-  "overdue": [
-    {
-      "id": "coolant",
-      "name": "Rellenar Coolant/Agua",
-      "label": "282d overdue",
-      "due": "2026-02-11"
-    }
-  ],
+  "overdue": [],
   "due_soon": [
     {
       "id": "tire-pressure",
