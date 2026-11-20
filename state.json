@@ -41,11 +41,11 @@
       "id": "coolant",
       "name": "Rellenar Coolant/Agua",
       "category": "fluids",
-      "last_done_date": "2026-11-20",
-      "last_done_km": 134636,
+      "last_done_date": "2025-11-11",
+      "last_done_km": null,
       "interval_km": null,
       "interval_months": 3,
-      "notes": ""
+      "notes": "1 L de coolant comprado el 2026-11-20, pendiente de rellenar."
     },
     {
       "id": "brake-fluid",
@@ -223,8 +223,7 @@
     },
     {
       "date": "2026-11-20",
-      "km": 134636,
-      "liters": null
+      "km": 134636
     }
   ]
 }
