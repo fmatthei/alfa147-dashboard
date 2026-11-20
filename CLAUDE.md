@@ -25,5 +25,7 @@ A GitHub Action (`.github/workflows/recompute.yml`) then runs automatically on e
 
 ## Data conventions
 - Item names stay in Spanish; UI and digest text in English.
-- If a value is unknown (e.g. liters at a fill-up), ask the user rather than guessing;
-  don't mark maintenance done unless the user says it was done.
+- Fuel log entries record date and km only; the user does not track liters, so don't ask.
+- Don't mark maintenance done unless the user says it was done (buying a part or fluid is
+  not doing the job: note the purchase in the item's `notes` instead). If anything else is
+  unclear, ask rather than guess.
