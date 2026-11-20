@@ -6,12 +6,19 @@
     "km_recorded_date": "2026-11-20"
   },
   "summary": {
-    "overdue_count": 0,
+    "overdue_count": 1,
     "soon_count": 2,
     "pending_parts_count": 0,
     "open_issues_count": 3
   },
-  "overdue": [],
+  "overdue": [
+    {
+      "id": "coolant",
+      "name": "Rellenar Coolant/Agua",
+      "label": "282d overdue",
+      "due": "2026-02-11"
+    }
+  ],
   "due_soon": [
     {
       "id": "tire-pressure",
