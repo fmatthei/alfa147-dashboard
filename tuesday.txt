@@ -1,8 +1,8 @@
 TITLE|1 overdue · 2 due soon · 3 open issues
-META|2026-11-21|134,636|2026-11-20
-OVERDUE|Rellenar Coolant/Agua|283d overdue|due 2026-02-11
-DUESOON|Presión neumáticos|due in 10d|due 2026-12-01
-DUESOON|Rellenar Aceite|due in 31d|due 2026-12-22
+META|2026-11-22|134,636|2026-11-20
+OVERDUE|Rellenar Coolant/Agua|284d overdue|due 2026-02-11
+DUESOON|Presión neumáticos|due in 9d|due 2026-12-01
+DUESOON|Rellenar Aceite|due in 30d|due 2026-12-22
 ISSUE|Parachoques delantero|Open|-
 ISSUE|Lado izquierdo (carrocería)|To evaluate|-
 ISSUE|Kit de embrague (cambiar)|To evaluate|-
