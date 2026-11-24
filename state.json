@@ -41,11 +41,11 @@
       "id": "coolant",
       "name": "Rellenar Coolant/Agua",
       "category": "fluids",
-      "last_done_date": "2025-11-11",
+      "last_done_date": "2026-11-23",
       "last_done_km": null,
       "interval_km": null,
       "interval_months": 3,
-      "notes": "1 L de coolant comprado el 2026-11-20, pendiente de rellenar."
+      "notes": "2026-11-23: 600 cc de Mobil Super Extended Life (premezcla 50/50). Quedan ~400 cc en la botella."
     },
     {
       "id": "brake-fluid",
@@ -212,7 +212,7 @@
   "service_log_source": "Google Sheet bitácora (manual entries, not duplicated here — this state.json tracks status/cadence, not full history)",
   "meta": {
     "schema_version": 1,
-    "last_updated": "2026-11-20",
+    "last_updated": "2026-11-24",
     "names_language": "es"
   },
   "fuel_log": [
