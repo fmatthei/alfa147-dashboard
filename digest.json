@@ -1,35 +1,28 @@
 {
-  "generated_at": "2026-11-23",
+  "generated_at": "2026-11-24",
   "vehicle": {
     "label": "Alfa Romeo 147",
     "current_km": 134636,
     "km_recorded_date": "2026-11-20"
   },
   "summary": {
-    "overdue_count": 1,
+    "overdue_count": 0,
     "soon_count": 2,
     "pending_parts_count": 0,
     "open_issues_count": 3
   },
-  "overdue": [
-    {
-      "id": "coolant",
-      "name": "Rellenar Coolant/Agua",
-      "label": "285d overdue",
-      "due": "2026-02-11"
-    }
-  ],
+  "overdue": [],
   "due_soon": [
     {
       "id": "tire-pressure",
       "name": "Presión neumáticos",
-      "label": "due in 8d",
+      "label": "due in 7d",
       "due": "2026-12-01"
     },
     {
       "id": "top-up-oil",
       "name": "Rellenar Aceite",
-      "label": "due in 29d",
+      "label": "due in 28d",
       "due": "2026-12-22"
     }
   ],
