@@ -7,7 +7,7 @@ Lines (after COUNT|n):
   DATA|<when state.json last changed, Santiago time>
   RUN|<now, Santiago time>|ok or FAILED|<reason or ->
   COVERAGE|<last date that has a pre-built alert file>
-  NEXTDIGEST|<first date after today that has a pre-built weekly digest file (next week's)>
+  NEXTDIGEST|<furthest-ahead date that has a pre-built weekly digest file>
 Times use the runner's TZ (the workflow sets TZ=America/Santiago).
 """
 import datetime as dt
@@ -61,7 +61,8 @@ def main():
     ]
     if os.path.isdir(os.path.join(out_dir, "alerts")):
         lines.append(f"COVERAGE|{alerts[-1] if alerts else 'none'}")
-    lines.append(f"NEXTDIGEST|{digests[0] if digests else 'none'}")
+    # Furthest-ahead digest: still correct when the email is sent a day after this file was written.
+    lines.append(f"NEXTDIGEST|{digests[-1] if digests else 'none'}")
     text = "\n".join([f"COUNT|{len(lines)}"] + lines) + "\n"
     with open(os.path.join(out_dir, "status.txt"), "w", encoding="utf-8") as f:
         f.write(text)
