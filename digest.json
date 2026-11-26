@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25",
+  "generated_at": "2026-11-26",
   "vehicle": {
     "label": "Alfa Romeo 147",
     "current_km": 134636,
@@ -16,13 +16,13 @@
     {
       "id": "tire-pressure",
       "name": "Presión neumáticos",
-      "label": "due in 6d",
+      "label": "due in 5d",
       "due": "2026-12-01"
     },
     {
       "id": "top-up-oil",
       "name": "Rellenar Aceite",
-      "label": "due in 27d",
+      "label": "due in 26d",
       "due": "2026-12-22"
     }
   ],
