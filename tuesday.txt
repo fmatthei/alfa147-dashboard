@@ -1,7 +1,7 @@
 TITLE|2 due soon · 3 open issues
-META|2026-11-26|134,636|2026-11-20
-DUESOON|Presión neumáticos|due in 5d|due 2026-12-01
-DUESOON|Rellenar Aceite|due in 26d|due 2026-12-22
+META|2026-11-27|134,636|2026-11-20
+DUESOON|Presión neumáticos|due in 4d|due 2026-12-01
+DUESOON|Rellenar Aceite|due in 25d|due 2026-12-22
 ISSUE|Parachoques delantero|Open|-
 ISSUE|Lado izquierdo (carrocería)|To evaluate|-
 ISSUE|Kit de embrague (cambiar)|To evaluate|-
